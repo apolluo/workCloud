@@ -1,0 +1,62 @@
+<div class="proj" ng-controller="getProjsCtrl">
+  <div>{{getProjsCtrl.projList}}</div>
+  <h3>我的项目</h3>
+  <div id='accordion'>
+    <h4>当前项目</h4>
+    <div id='projs'>
+    </div>
+
+    <h4>所有项目</h4>
+    <div id='allProjs'>
+
+    </div>
+    <h4>新增项目</h4>
+    <div>
+
+      <p>
+        <a id="dialog-link" class="ui-state-default ui-corner-all" ng-click="createProj('local')">
+          <span class="ui-icon ui-icon-newwin"></span>创建本地项目</a>
+      </p>
+      <p>
+        <a id="dialog-link1" class="ui-state-default ui-corner-all">
+          <span class="ui-icon ui-icon-newwin"></span>创建线上项目</a>
+      </p>
+
+
+    </div>
+  </div>
+  <div id="dialog" title="创建新项目" style="display:none;">
+    <p>
+      项目名:<input type="text" ng-model='projName'>
+    </p>
+    <p>
+      项目路径：
+      <input type='file' name="projList" id='projList' ng-model='projList' webkitdirectory>
+
+    </p>
+    <p>
+      项目说明:<textarea name="info" ng-model='projInfo'></textarea>
+    </p>
+  </div>
+
+  <div>
+    <a href="#/plugin">插件管理</a>
+
+  </div>
+  <!-- <input type='file' id='projList' name="projList" multiple="multiple" > -->
+
+</div>
+<script>
+  $("#accordion").accordion();
+
+  // $('#projs').jstree({
+  //   'core' : {
+  //     'data' : [
+  //       { "text" : "Root node", "children" : [
+  //           { "text" : "Child node 1" },
+  //           { "text" : "Child node 2" }
+  //       ]}
+  //     ]
+  //   }
+  // });
+</script>

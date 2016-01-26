@@ -1,0 +1,27 @@
+{
+  "name": "workCloud",
+  "verson": "0.1.0",
+  "main": "index.html",
+  "window": {
+    "title": "workCloud",
+    "toolbar": true,
+    "resizable": true,
+    "always-on-top": false,
+    "fullscreen": false,
+    "position": "center",
+    "width": 800,
+    "height": 600
+  },
+  "dependencies": {
+    "mysql": "2.0.0",
+    "mysql-queues": "1.0.0",
+    "async": "0.2.10",
+    "sequelize": "3.15.1"
+  },
+  "devDependencies": {
+    "bufferhelper": "^0.2.1",
+    "fs-readdir-promise": "^1.0.1",
+    "iconv-lite": "^0.4.13",
+    "jshint": "^2.9.1"
+  }
+}

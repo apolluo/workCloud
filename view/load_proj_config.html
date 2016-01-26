@@ -1,0 +1,70 @@
+<!-- <div class="proj" ng-controller="load_proj_config_ctrl"> -->
+<!-- 路由里定义，这里设置ng-controller会导致执行2次 -->
+<div class="proj">
+  <h3>{{proj}}的项目配置</h3>
+  <!-- <p>不能用P去重复，不然input无法绑定数据</p> -->
+
+  <div class='config' ng-repeat='config in allConfigs'>
+    <h4><input type="text" ng-model="config.name"> </h4>
+    <div>
+      <p>配置类型：
+        <input type="text" ng-model="config.type">
+      </p>
+      <p>配置内容：
+        <input type="text" ng-model="config.cmdStr">
+      </p>
+      <p>配置文件：
+        <input type="text" ng-model="config.configFile">
+      </p>
+      <p>配置说明：
+        <textarea ng-model="config.info"></textarea>
+      </p>
+      <button id="save" ng-click="delete(config.id)">删除</button>
+      <button id="save" ng-click="save(config)">修改</button>
+      <button id="button" ng-click="run(config)">运行</button>
+    </div>
+  </div>
+
+
+  <h3>添加新配置</h3>
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">添加本地配置</a></li>
+      <li><a href="#tabs-2">添加线上配置</a></li>
+    </ul>
+    <div id="tabs-1">
+      <p>配置名：
+        <input type="text" value="" ng-model='configName'>
+        <select id="configType" name='configType' ng-model='configType' ng-change='selectConfig(configType)'>
+          <option selected="selected" value="">请选择配置类型</option>
+          <option value="cmd">命令行</option>
+          <option value="file">配置文件</option>
+          <option value="gulp">gulp</option>
+        </select>
+      </p>
+      <p>
+        <textarea name='configCmd' ng-model='configCmd' style='width: 400px;height: 80px;' ng-show='showCMD'></textarea>
+        <input type='file' id='configFile' name="configFile" ng-model='configFile' ng-show="showConfigFile">
+      </p>
+      <p>配置说明：
+        <textarea value="" ng-model='info' name="info"></textarea>
+      </p>
+      <button id="button" ng-click="run()">运行</button>
+      <button id="save" ng-click="save()">保存</button>
+    </div>
+    <div id="tabs-2"></div>
+  </div>
+
+
+  <br>
+  <br>
+
+  <!-- <input type='file' id='projList' name="projList" multiple="multiple" > -->
+</div>
+<script>
+  $("button").button();
+  $("#tabs").tabs();
+  $(".config").accordion();
+  //会修改select元素
+  //$( "#configType" ).selectmenu();
+</script>

@@ -1,0 +1,28 @@
+<!-- <div class="proj" ng-controller="load_proj_config_ctrl"> -->
+<!-- 路由里定义，这里设置ng-controller会导致执行2次 -->
+<div class="proj">
+  <h3>本项目已安装的插件</h3>
+  <!-- <p>不能用P去重复，不然input无法绑定数据</p> -->
+
+  <div class='config' ng-repeat='plugin in plugins'>
+    <h5>{{plugin.name}} </h5>
+    <div>
+      版本号：{{plugin.version}}
+
+      <button id="uninstall" ng-click="uninstall(plugin.name)">卸载</button>
+      <button id="updatePluin" ng-click="updata(plugin.name)">更新</button>
+    </div>
+  </div>
+
+  <h4>安装编译工具</h4>
+  <button id='gulp' ng-click='install("gulp")'>安装gulp</button>
+
+  <br>
+  <br>
+
+  <!-- <input type='file' id='projList' name="projList" multiple="multiple" > -->
+</div>
+<script>
+  $("button").button();
+  $(".config").accordion();
+</script>

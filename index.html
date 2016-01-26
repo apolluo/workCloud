@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app='workCloud'>
+
+<head>
+  <title>workCloud</title>
+  <meta charset="UTF-8">
+  <script src="js/main.js"></script>
+  <script src="js/exec.js"></script>
+  <script src="js/file.js"></script>
+  <script src="js/install/main.js"></script>
+
+  <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/angular/angular.min.js"></script>
+  <script src="js/angular/angular-route.min.js"></script>
+  <script src="routes/controller.js"></script>
+  <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+
+  <script src="ui/jstree.min.js"></script>
+  <script src="js/ui.js"></script>
+
+  <link rel="stylesheet" href="ui/themes/default/style.min.css" />
+  <link href="ui/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
+  <style>
+    #dialog-link {
+      padding: .4em 1em .4em 20px;
+      text-decoration: none;
+      position: relative;
+      cursor: pointer;
+    }
+
+    #dialog-link span.ui-icon {
+      margin: 0 5px 0 0;
+      position: absolute;
+      left: .2em;
+      top: 50%;
+      margin-top: -8px;
+    }
+
+    .config h4 input {
+      background: transparent;
+      border: none;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .ui-widget-overlay {
+      background: #030303;
+      opacity: .7;
+      filter: Alpha(Opacity=30);
+      /* support: IE8 */
+    }
+  </style>
+</head>
+
+<body ng-controller="mainCtrl">
+  <script>
+    function isSupportFileApi() {
+      if (window.File && window.FileList && window.FileReader && window.Blob) {
+        return true;
+      }
+      return false;
+    }
+    console.log(isSupportFileApi())
+      // var process = require('child_process');
+      // //直接调用命令
+      // exports.createDir = function (){process.exec('D: && cd testweb && md mydir',
+      //     function (error, stdout, stderr) {
+      //       if (error !== null) {
+      //         console.log('exec error: ' + error);
+      //       }
+      //   });
+      // }
+      // //调用执行文件
+      // exports.openApp = function(){
+      //   process.execFile('D:/testweb/aaa.bat',null,{cwd:'D:/'},
+      //     function (error,stdout,stderr) {
+      //       if (error !== null) {
+      //         console.log('exec error: ' + error);
+      //       }
+      //   });
+      // }
+      //
+      // exports.build = function (){process.exec('D: && cd D:\\工作\\AD2_proj\\branches\\mqq_news && gulp mqq',
+      //     function (error, stdout, stderr) {
+      //       if (error !== null) {
+      //         console.log('exec error: ' + error);
+      //       }
+      //   });
+      // }
+  </script>
+
+  <div class="main_left" style="float:left;width:200px;">
+    <div ng-include="'view/getProjs.html'"></div>
+  </div>
+  <div class="main_right" style='float:right;' ng-view>
+
+  </div>
+
+  <div id='alert' title="">
+    <p class='text'></p>
+  </div>
+
+</body>
+
+</html>
