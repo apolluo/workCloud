@@ -1,5 +1,8 @@
 var through = require("through2");
+console.log('----merge----')
+console.log(through)
 var path = require("path");
+console.log(path)
 
 const PLUGIN_NAME = "gulp-template-merge";
 
