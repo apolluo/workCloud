@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
-var config=require('../config')
-var db=config.db;
+var config = require('../config')
+var db = config.db;
 var sequelize = new Sequelize(db.database, db.user, db.password, {
   host: db.host,
   //port: '3306',
@@ -9,7 +9,9 @@ var sequelize = new Sequelize(db.database, db.user, db.password, {
   //   min,
   //   idle:
   // },
-  dialect: 'mysql'
+  //dialect: 'mysql',
+  dialect: 'sqlite',
+  storage: 'data/workCloud.db'
 
 });
-module.exports=sequelize;
+module.exports = sequelize;

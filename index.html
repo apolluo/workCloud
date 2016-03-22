@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html ng-app='workCloud'>
+<html lang="en" ng-app='workCloud'>
 
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>workCloud</title>
-  <meta charset="UTF-8">
+  <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/exec.js"></script>
   <script src="js/file.js"></script>
   <script src="js/install/main.js"></script>
 
-  <script src="js/jquery-1.11.3.min.js"></script>
+
   <script src="js/angular/angular.min.js"></script>
   <script src="js/angular/angular-route.min.js"></script>
   <script src="routes/controller.js"></script>
@@ -17,10 +20,32 @@
 
   <script src="ui/jstree.min.js"></script>
   <script src="js/ui.js"></script>
+  <script src="plugin/wc_gulpfile.js"></script>
+
 
   <link rel="stylesheet" href="ui/themes/default/style.min.css" />
-  <link href="ui/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
+  <!-- <link href="ui/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"> -->
+  <!-- Bootstrap -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="ui/bootbox_v2_for4.4.css" />
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="ui/bootbox.min.js"></script> -->
+    <script src="ui/bootbox_v2_for4.4.js"></script>
   <style>
+    body{
+
+    }
+    .panel-collapse div{
+      max-height: 300px;
+      overflow-y: scroll;
+    }
     #dialog-link {
       padding: .4em 1em .4em 20px;
       text-decoration: none;
@@ -49,10 +74,20 @@
       filter: Alpha(Opacity=30);
       /* support: IE8 */
     }
+
+    /*input.ng-invalid.ng-dirty {
+      background-color: red;
+    }
+
+    div.error {
+      background-colro: red;
+    }*/
+
   </style>
 </head>
 
 <body ng-controller="mainCtrl">
+
   <script>
     function isSupportFileApi() {
       if (window.File && window.FileList && window.FileReader && window.Blob) {
@@ -87,12 +122,15 @@
       //       }
       //   });
       // }
-  </script>
 
-  <div class="main_left" style="float:left;width:200px;">
+  </script>
+  <div class="bb-alert alert alert-info" style="display:none; position:fixed">
+          <span>The examples populate this alert with dummy content</span>
+      </div>
+  <div class="main_left" style="float:left;width:200px; margin-left:20px;">
     <div ng-include="'view/getProjs.html'"></div>
   </div>
-  <div class="main_right" style='float:right;' ng-view>
+  <div class="main_right" style='float:left;width:520px;max-height:520px;overflow-y:scroll;overflow-x:hidden; margin-left:20px' ng-view>
 
   </div>
 

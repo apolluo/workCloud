@@ -6,68 +6,74 @@ var Projs = {};
 
 
 Projs = sequelize.define('Projs', {
-  // auto increment, primaryKey, unique
-  id: {
-    //整型
-    type: Sequelize.INTEGER,
-    //自动增长
-    autoIncrement: true,
-    //主键
-    primaryKey: true,
-    //唯一
-    unique: true
-  },
+    // auto increment, primaryKey, unique
+    // id: {
+    //   //整型
+    //   type: Sequelize.INTEGER,
+    //   //自动增长
+    //   autoIncrement: true,
+    //   //主键
+    //   primaryKey: true,
+    //   //唯一
+    //   unique: true
+    // },
 
-  //项目名
-  name: {
-    // VARCHAR(255)
-    type: Sequelize.STRING,
-    primaryKey: true,
-    unique: true,
-    comment: '项目名'
-  },
+    //项目名
+    name: {
+      // VARCHAR(255)
+      type: Sequelize.STRING,
+      primaryKey: true,
+      unique: true,
+      comment: '项目名'
+    },
 
-  //项目路径
-  src: {
-    type: Sequelize.TEXT
-  },
+    //项目路径
+    src: {
+      type: Sequelize.TEXT
+    },
 
-  //项目说明
-  info: {
-    type: Sequelize.TEXT,
-    //允许空
-    allowNull: true
-  },
+    //项目说明
+    info: {
+      type: Sequelize.TEXT,
+      //允许空
+      allowNull: true
+    },
 
-  //配置
-  config: {
-    type: Sequelize.TEXT,
-    //默认值
-    defaultValue: ''
-  },
+    //配置
+    config: {
+      type: Sequelize.TEXT,
+      //默认值
+      defaultValue: ''
+    },
 
-  //创建时间
-  createTime: {
-    type: Sequelize.DATE,
-    //默认值
-    defaultValue: Sequelize.NOW
-  }
-})
+    //创建时间
+    createTime: {
+      type: Sequelize.DATE,
+      //默认值
+      defaultValue: Sequelize.NOW
+    }
+  }, {
+    //表名不指定，默认生成后似乎不好修改
+    tableName: 'projs'
+  })
+  //sequelize.authenticate();
+
 Projs.sync().then(function() {
   console.log('项目同步成功');
-  Projs.findAll().then(function(data) {
-      console.log(data)
-    })
-    // Projs.getAllProjs=function(prj_src, callback) {
-    //   Projs.findAll({src:prj_src}).then(
-    //     function(projs){
-    //       callback(null, projs);
-    //     }
-    //   )
-    // }
+  // Projs.findAll().then(function(data) {
+  //     console.log(data)
+  //   })
+  // Projs.getAllProjs=function(prj_src, callback) {
+  //   Projs.findAll({src:prj_src}).then(
+  //     function(projs){
+  //       callback(null, projs);
+  //     }
+  //   )
+  // }
 
-}).catch(function() {
-  console.log('同步数据库失败');
+}).catch(function(error) {
+  console.log(error)
+  console.log('同步项目失败');
 })
 Projs.getProj = function(prj_src, callback) {
   if (prj_src) {
@@ -94,12 +100,38 @@ Projs.getProj = function(prj_src, callback) {
 }
 Projs.save = function(data, callback) {
   Projs.create({
+      name: data[0],
+      src: data[1],
+      info: data[2]
+    }).then(function(projs) {
+      callback('success', projs);
+    })
+    .catch(function(error) {
+      callback('fail', error)
+    })
+}
+Projs.update = function(data, callback) {
+  Projs.update({
     name: data[0],
     src: data[1],
     info: data[2]
-  }).then(function(projs) {
-    callback(null, projs);
+  }, {
+    name: data[0]
   })
+}
+Projs.delete = function(name, callback) {
+  console.log(name)
+  Projs.destroy({
+      where: {
+        'name': name
+      }
+    })
+    .then(function(data) {
+      callback(data)
+    })
+    .catch(function(err) {
+      console.log(err)
+    })
 }
 
 module.exports = Projs;

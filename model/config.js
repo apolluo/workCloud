@@ -11,7 +11,7 @@ var Config = sequelize.define('Config', {
   info: Sequelize.TEXT,
   prj: Sequelize.STRING
 }, {
-	//表名不指定，默认生成后似乎不好修改
+  //表名不指定，默认生成后似乎不好修改
   tableName: 'config'
 })
 Config.sync(
@@ -24,7 +24,7 @@ Config.sync(
 })
 Config.getConfig = function(prj, callback) {
   Config.findAll({
-    where:{
+    where: {
       prj: prj
     }
 
@@ -34,16 +34,25 @@ Config.getConfig = function(prj, callback) {
       callback("success", config);
     }
   )
-	Config.update=function(data,callback){
-		Config.update({
+  Config.modify = function(data, callback) {
+    Config.update({
       name: data[0],
       type: data[1],
       configFile: data[2],
       cmdStr: data[3],
       info: data[4],
       prj: data[5]
-    },{id:data[6]})
-	}
+    }, {
+      where: {
+        id: data[6]
+      }
+    }).then(
+      function(config) {
+        console.log(callback)
+        console.log(config)
+        callback('success', config)
+      })
+  }
   Config.save = function(data, callback) {
     Config.create({
       name: data[0],
@@ -54,21 +63,24 @@ Config.getConfig = function(prj, callback) {
       prj: data[5]
     }).then(
       function(config) {
-        callback('success', config)
+        callback('success', config.toJSON())
       }
     )
   }
-	Config.delete=function(id,callback){
-		console.log(id)
-		Config.destroy({
-			where:{
-				'id':id
-			}
-		}).then(callback)
-		.catch(function(err){
-			console.log(err)
-		})
-	}
+  Config.delete = function(option, callback) {
+    console.log(option)
+    Config.destroy({
+        where: (typeof option == 'object' ? option : {
+          'id': option
+        })
+      }).then(function(config) {
+        console.log(config)
+        callback('success', config)
+      })
+      .catch(function(err) {
+        console.log(err)
+      })
+  }
 }
 module.exports = Config;
 

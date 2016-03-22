@@ -13,14 +13,17 @@
     "height": 600
   },
   "dependencies": {
+    "async": "0.2.10",
     "mysql": "2.0.0",
     "mysql-queues": "1.0.0",
-    "async": "0.2.10",
-    "sequelize": "3.15.1"
+    "sequelize": "3.15.1",
+    "sqlite3": "^3.1.1"
   },
   "devDependencies": {
+    "bootstrap": "^3.3.6",
     "bufferhelper": "^0.2.1",
     "fs-readdir-promise": "^1.0.1",
+    "grunt": "^0.4.5",
     "iconv-lite": "^0.4.13",
     "jshint": "^2.9.1"
   }

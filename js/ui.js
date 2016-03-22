@@ -1,5 +1,64 @@
 $('#button').button();
 wc.extend({
+  bx: (function() {
+    "use strict";
+
+    var elem,
+      hideHandler,
+      that = {};
+
+    that.init = function(options) {
+      elem = $(options.selector);
+    };
+
+    that.show = function(text) {
+      clearTimeout(hideHandler);
+
+      elem.find("span").html(text);
+      elem.delay(200).fadeIn().delay(4000).fadeOut();
+    };
+    $(function() {
+      that.init({
+        "selector": ".bb-alert"
+      });
+    });
+
+    return that;
+  }()),
+  log: function(msg) {
+    if (msg) {
+      switch (msg.state) {
+        case 'start':
+          bootbox.dialog({
+            message: '<ul id="wc_log_txt" style="max-height:250px;overflow-y:scroll;"><li>' + msg.txt + '</li></ul>',
+            title: "消息提醒",
+            className: "wc_log",
+            formRb: true,
+            backdrop: false
+          });
+          break;
+        case 'loading':
+          $('#wc_log_txt').append('<li>' + msg.txt + '</li>')
+          break;
+        case 'end':
+          setTimeout(function() {
+            $('.wc_log').modal("hide");
+          }, 3000);
+          break;
+        default:
+          bootbox.dialog({
+            message: msg,
+            title: "消息提醒",
+            className: "wc_log",
+            formRb: true,
+            backdrop: false
+          });
+          break;
+
+      }
+    }
+
+  },
   alert: function(option) {
     var _dialog = $("#alert");
     //_dialog.text = $('#alert .text')
@@ -27,12 +86,12 @@ wc.extend({
       buttons: option.buttons || [],
       modal: true,
       show: option.show || {
-        //effect: "blind",
-        duration: 200
+        effect: "blind",
+        duration: 300
       },
       hide: option.hide || {
-        //effect: "explode",
-        duration: 200
+        effect: "explode",
+        duration: 300
       }
     });
   }
