@@ -1,0 +1,33 @@
+
+<div class="proj">
+  <h3>系统设置</h3>
+
+<div class="panel-group" >
+  <div class='panel panel-primary'>
+    <div class="panel-heading">
+      <h4 class="panel-title" >npm代理设置</h5>
+    </div>
+    <div class="panel-body">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">http代理:</span>
+        <input type="text" class="form-control" placeholder="设置http代理"  ng-model="npm.proxy">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="npm.set('proxy',npm.proxy)">Go!</button>
+        </span>
+    </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+  <br>
+  <br>
+
+  <!-- <input type='file' id='projList' name="projList" multiple="multiple" > -->
+</div>
+<script>
+  //$("button").button();
+  //$(".config").accordion();
+</script>

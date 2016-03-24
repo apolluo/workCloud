@@ -9,8 +9,8 @@ var sequelize = new Sequelize(db.database, db.user, db.password, {
   //   min,
   //   idle:
   // },
-  //dialect: 'mysql',
-  dialect: 'sqlite',
+  dialect: 'mysql',
+  //dialect: 'sqlite',
   storage: 'data/workCloud.db'
 
 });

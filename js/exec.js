@@ -207,16 +207,3 @@ wc.extend({
     }
   }
 })
-var exec = require('child_process').exec;
-var cmdStr = 'D: && cd D:\\工作\\AD2_proj\\branches\\mqq_news && gulp mqq';
-var run = function() {
-  exec(cmdStr, function(err, stdout, stderr) {
-    if (err) {
-      console.log('error:' + stderr);
-    } else {
-      console.log(stdout);
-      //var data = JSON.parse(stdout);
-
-    }
-  });
-}

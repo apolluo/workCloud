@@ -34,6 +34,10 @@ wc.extend({
                 templateUrl: 'view/plugin.html',
                 controller: 'plugin_ctrl'
               })
+              .when('/settings',{
+                templateUrl: 'view/settings.html',
+                controller: 'settings_ctrl'
+              })
               .otherwise({
                 redirectTo: '/load_proj_config'
               });
@@ -203,6 +207,9 @@ wc.extend({
                 //   window.location.href = "#/load_proj_config"
                 // }
               var loadProj = $scope.loadProj = function(name, isLoadConfig) {
+                if(name&&name=='本地项目'){
+                  return;
+                }
                 console.log('loadProj:' + name)
                 if (name && name != 'all') {
                   console.log(wcData.projs[name])
@@ -250,7 +257,33 @@ wc.extend({
                         change: {
                           label: '修改',
                           className: 'btn-warning',
-                          callback: function() {}
+                          callback: function() {
+                            Projs.modify([
+                              $('#projInfo .name').val(),
+                              $('#projInfo .src').val(),
+                              $('#projInfo .info').val(),
+                              $scope.targetProj.name
+                            ], function(result, data) {
+                              bootbox.hideAll();
+                              if(result=='success'){
+                                setTimeout(function() {
+                                  bootbox.success('项目修改成功！',function () {
+                                    console.log('项目修改成功！')
+                                    loadProjConfig(name, true)
+                                    //location.href="#/";
+                                  })
+                                  // var instance = $('#allProjs').jstree(true);
+                                  // instance.refresh()
+                                }, 500)
+                              }else{
+                                setTimeout(function() {
+                                  bootbox.danger('项目修改失败！')
+                                }, 500)
+                              }
+                              // delete wcData.projs[name];
+                              // console.log(result, data)
+                            })
+                          }
                         },
                         load: {
                           label: '加载',
@@ -369,6 +402,7 @@ wc.extend({
                   var src = wcData.projs[name].src
                   wc.setLocalData('current_src', src)
                   window.location.href = "#/load_proj_config"
+                  console.log('readDir:'+src)
                   wc.file.readDir(src, showDir)
                   if (wcData.loadConfig)
                     wcData.loadConfig(name, src)
@@ -594,6 +628,34 @@ wc.extend({
             listPlugins();
 
           })
+
+          app.controller('settings_ctrl', function($scope, wcData) {
+            $scope.npm={
+              proxy:'',
+              set:function (key,v) {
+                switch (key) {
+                  case 'proxy':
+                  wc.plugin('npm').proxy(v)
+                  .then(function (data) {
+                    console.log(data)
+                  })
+                    break;
+                  default:
+                    break;
+                }
+
+              }
+            }
+            wc.plugin('npm').proxy()
+              .then(function (data) {
+                console.log(data)
+                if(data&&data.length>0){
+                  $scope.npm.proxy=data[0];
+                  $scope.$apply();
+                }
+              })
+          })
+
         },
 
         showDir = function(data, id) {

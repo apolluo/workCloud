@@ -110,13 +110,20 @@ Projs.save = function(data, callback) {
       callback('fail', error)
     })
 }
-Projs.update = function(data, callback) {
+Projs.modify = function(data, callback) {
   Projs.update({
     name: data[0],
     src: data[1],
     info: data[2]
   }, {
-    name: data[0]
+    where:{
+      name: data[3]
+    }
+  }).then(function(projs) {
+    callback('success', projs);
+  })
+  .catch(function(error) {
+    callback('fail', error)
   })
 }
 Projs.delete = function(name, callback) {

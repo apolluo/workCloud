@@ -1,5 +1,5 @@
 wc.extend((function() {
-  const ROOT = 'D:\\doSomething\\workCloud'
+  const ROOT = './'
   const PLUGIN_ROOT = './plugin/'
   const PLUGIN_DIR = './plugin/node_modules/'
   var pluginStore = {
@@ -15,6 +15,18 @@ wc.extend((function() {
       update: function(name, isGlobal) {
         return 'cd plugin && npm update ' + name + (isGlobal ? ' -g' : ' --save-dev')
       }
+    },
+    npm:{
+      proxy:function (url) {
+        if(url){
+          return 'npm config set proxy '+url;
+        }else{
+          return 'npm config get proxy'
+        }
+      }
+    },
+    settings:{
+
     },
     node: {
       check: 'node -v'

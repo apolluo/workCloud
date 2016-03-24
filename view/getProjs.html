@@ -58,7 +58,8 @@
       </div>
       <div id="collapsefour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
         <div class="panel-body">
-          <a href="#/plugin" >插件管理 <span class="glyphicon glyphicon-cog"></span></a>
+          <a href="#/plugin" >插件管理 <span class="glyphicon glyphicon-cog"></span></a><br>
+          <a href="#/settings" >软件设置 <span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </div>
@@ -100,10 +101,10 @@
       项目名：{{targetProj.name}}
     </p>
     <p>
-      项目路径：{{targetProj.src}}
+      项目路径：<input type='text' class='src' ng-model='targetProj.src' style="border:none;width:300px">
     </p>
     <p>
-      项目说明：{{targetProj.info}}
+      项目说明：<input type='text' class='info' ng-model='targetProj.info' style="border:none;width:300px">
     </p>
   </div>
 

@@ -1,5 +1,5 @@
 wc.extend({
-  gulp: function(configFile,log) {
+  gulp: function(configFile, log) {
     var gulp = require(wc.plugin.fn.PLUGIN_DIR + "gulp");
     var merge = require(wc.plugin.fn.PLUGIN_ROOT + "gulp-template-merge");
     var rename = require(wc.plugin.fn.PLUGIN_DIR + "gulp-rename");
@@ -7,6 +7,7 @@ wc.extend({
     var wrapper = require(wc.plugin.fn.PLUGIN_DIR + "gulp-wrapper");
     var jshint = require(wc.plugin.fn.PLUGIN_DIR + 'gulp-jshint')
     var eslint = require(wc.plugin.fn.PLUGIN_DIR + 'gulp-eslint')
+    var concat = require(wc.plugin.fn.PLUGIN_DIR + 'gulp-concat');
     console.log(configFile)
     if (log) {
       wc.log({
@@ -16,9 +17,9 @@ wc.extend({
     } else {
       bootbox.loading('加载中，请稍候...')
     }
-    configFile=configFile.replace(/\\/g,'\\\\')
+    configFile = configFile.replace(/\\/g, '\\\\')
     console.log(configFile)
-    var config =require(configFile)
+    var config = require(configFile)
     console.log(config)
 
     var currentTime = function() {
@@ -31,15 +32,15 @@ wc.extend({
 
     var stream = gulp.src([config.path + config.src])
     console.log(stream)
-    if (log){
+    if (log) {
       wc.log({
         state: 'loading',
-        txt: 'gulp file：'+config.path + config.src
+        txt: 'gulp file：' + config.path + config.src
       })
     }
 
     if (config.type == 'temp') {
-      if (log){
+      if (log) {
         wc.log({
           state: 'loading',
           txt: 'merge file'
@@ -47,7 +48,7 @@ wc.extend({
       }
       stream = stream.pipe(merge());
     } else {
-      if (log){
+      if (log) {
         wc.log({
           state: 'loading',
           txt: 'concat file'
@@ -63,8 +64,8 @@ wc.extend({
     //包含log及debug信息
     //stream.pipe(rename('all-debug.js'))
     stream.pipe(rename(config.debug.name))
-    //.pipe(gulp.dest(config.path + "/debug"))
-    .pipe(gulp.dest(config.debug.path))
+      //.pipe(gulp.dest(config.path + "/debug"))
+      .pipe(gulp.dest(config.debug.path))
       .pipe(eslint())
       // eslint.format() outputs the lint results to the console.
       // Alternatively use eslint.formatEach() (see Docs).
@@ -108,14 +109,14 @@ wc.extend({
         }
       }))
       .on('error', function(err) {
-        console.log('err------',err)
-        if (log){
+        console.log('err------', err)
+        if (log) {
           wc.log({
             state: 'loading',
             txt: err
           })
         }
-          // handle the error
+        // handle the error
       })
       // .catch(function(error) {
       //   console.log(error)
@@ -128,12 +129,12 @@ wc.extend({
       //发布版本，即压缩版本
       .pipe(rename(config.release.name))
       .pipe(gulp.dest(config.release.path));
-      if (log){
-        wc.log({
-          state: 'loading',
-          txt: 'over'
-        })
-      }
+    if (log) {
+      wc.log({
+        state: 'loading',
+        txt: 'over'
+      })
+    }
     // var stream = gulp.src("projs/mqq/src/*_temp.js")
     //   .pipe(merge())
     //   .pipe(rename(function(path) {
