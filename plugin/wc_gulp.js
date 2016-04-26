@@ -1,3 +1,8 @@
+/**
+ * [extend description]
+ * @param  {[type]} {               gulp: function(configFile, log [description]
+ * @return {[type]}   [description]
+ */
 wc.extend({
   gulp: function(configFile, log) {
     var gulp = require(wc.plugin.fn.PLUGIN_DIR + "gulp");
@@ -129,9 +134,9 @@ wc.extend({
       //发布版本，即压缩版本
       .pipe(rename(config.release.name))
       .pipe(gulp.dest(config.release.path));
-      stream.on('data',function (data) {
-        console.log(data)
-      })
+    stream.on('data', function(data) {
+      console.log(data)
+    })
     if (log) {
       wc.log({
         state: 'loading',

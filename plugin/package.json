@@ -1,6 +1,6 @@
 {
   "name": "workCloud",
-  "verson": "0.1.0",
+  "verson": "0.1.1",
   "description": "js build tolls",
   "main": "index.html",
   "dependencies": {},

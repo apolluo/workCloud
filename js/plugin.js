@@ -81,6 +81,7 @@ wc.extend((function() {
      */
   var init = plugin.fn.init = function(name) {
     this.name = name;
+    this.core = require(PLUGIN_DIR +name);
     // var _plugin = {
     //   name: name
     // }
@@ -95,6 +96,9 @@ wc.extend((function() {
                 'npm install ' + pluginAPI.require.join(" ") + ' --save-dev'
               ].join(' && '), null, true)
             }
+            break;
+          case 'build':
+
             break;
           default:
             plugin.fn[k] = function() {
@@ -134,7 +138,10 @@ wc.extend((function() {
       // }
   }
   init.prototype = plugin.fn;
-
+  //wc.plugin('gulp').install
+  // wc.plugin('gulp').uninstall
+  // wc.plugin('gulp').core===require('gulp')
+  // wc.plugin('gulp').build(config,log)
   return {
     plugin: plugin
   }

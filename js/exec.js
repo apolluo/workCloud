@@ -191,7 +191,7 @@ wc.extend({
         if (wc.gulp) {
           wc.gulp(config.configFile,true);
         } else {
-          $.getScript('./plugin/wc_gulpfile.js')
+          $.getScript('./plugin/wc_gulp.js')
             .done(function(data, state) {
               //console.log(xhr)
               console.log(state)
