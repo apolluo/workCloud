@@ -50,3 +50,4 @@ node_modules/jshint/node_modules/htmlparser2/node_modules/domutils/node_modules/
 node_modules
 angular
 projs
+ui/*

@@ -6,7 +6,7 @@
 
 // @see https://github.com/makeusabrew/bootbox/issues/180
 // @see https://github.com/makeusabrew/bootbox/issues/186
-(function (root, factory) {
+(function(root, factory) {
 
   "use strict";
   if (typeof define === "function" && define.amd) {
@@ -28,60 +28,45 @@
 
   // the base DOM structure needed to create a modal
   var templates = {
-    dialog:
-      "<div class='bootbox modal' tabindex='-1' role='dialog'>" +
-        "<div class='modal-dialog'>" +
-          "<div class='modal-content'>" +
-            "<div class='modal-body'><div class='bootbox-body'></div></div>" +
-          "</div>" +
-        "</div>" +
+    dialog: "<div class='bootbox modal' tabindex='-1' role='dialog'>" +
+      "<div class='modal-dialog'>" +
+      "<div class='modal-content'>" +
+      "<div class='modal-body'><div class='bootbox-body'></div></div>" +
+      "</div>" +
+      "</div>" +
       "</div>",
-    header:
-      "<div class='modal-header'>" +
-        "<h4 class='modal-title'></h4>" +
+    header: "<div class='modal-header'>" +
+      "<h4 class='modal-title'></h4>" +
       "</div>",
-    footer:
-      "<div class='modal-footer'></div>",
-    closeButton:
-      "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
-    form:
-      "<form class='bootbox-form'></form>",
+    footer: "<div class='modal-footer'></div>",
+    closeButton: "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
+    form: "<form class='bootbox-form'></form>",
     inputs: {
-      text:
-        "<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",
-      textarea:
-        "<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",
-      email:
-        "<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",
-      select:
-        "<select class='bootbox-input bootbox-input-select form-control'></select>",
-      checkbox:
-        "<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",
-      date:
-        "<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",
-      time:
-        "<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",
-      number:
-        "<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",
-      password:
-        "<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"
+      text: "<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",
+      textarea: "<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",
+      email: "<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",
+      select: "<select class='bootbox-input bootbox-input-select form-control'></select>",
+      checkbox: "<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",
+      date: "<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",
+      time: "<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",
+      number: "<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",
+      password: "<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"
     },
 
-    success:
-      '<div class="modal-dialog">'+
-            '<div class="modal-content">'+
-                '<div class="modal-header">'+
-                   '<i class="glyphicon glyphicon-check"></i>'+
-                '</div>'+
-                '<div class="modal-title"></div>'+
-                '<div class="modal-body"></div>'+
-                '<div class="modal-footer">'+
-                   '<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>'+
-                '</div>'+
-            '</div>'+
-       ' </div> '+
-   '</div>'
-  
+    success: '<div class="modal-dialog">' +
+      '<div class="modal-content">' +
+      '<div class="modal-header">' +
+      '<i class="glyphicon glyphicon-check"></i>' +
+      '</div>' +
+      '<div class="modal-title"></div>' +
+      '<div class="modal-body"></div>' +
+      '<div class="modal-footer">' +
+      '<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>' +
+      '</div>' +
+      '</div>' +
+      ' </div> ' +
+      '</div>'
+
   }
 
   var defaults = {
@@ -136,7 +121,7 @@
     // @TODO defer to Object.keys(x).length if available?
     var k, t = 0;
     for (k in obj) {
-      t ++;
+      t++;
     }
     return t;
   }
@@ -192,7 +177,7 @@
       }
 
       if (!button.className) {
-        if (total <= 2 && index === total-1) {
+        if (total <= 2 && index === total - 1) {
           // always add a primary to the main option in a two-button dialog
           button.className = "btn-default";
         } else {
@@ -222,7 +207,7 @@
     // }
 
     for (var i = argn - 1; i >= 0; i--) {
-        options[properties[i]] = args[i];
+      options[properties[i]] = args[i];
     };
 
     // if (argn === 2 || typeof args[0] === "string") {
@@ -317,143 +302,143 @@
   }
   //message
 
-  function _MSG(){
+  function _MSG() {
 
-   this.init.apply(this,arguments)
+    this.init.apply(this, arguments)
   }
-  _MSG.prototype={
+  _MSG.prototype = {
 
-     init:function(opt){
-           console.log(opt);
+      init: function(opt) {
+        console.log(opt);
 
-      var defaults={
-          hideAfter:10000,
-          position:'msg-on-rb',
-          container:$('body'),
-          type:'success',
-          showCloseButton:true,
-          closeButtonText:"&times;",
-          autoHide:true
+        var defaults = {
+          hideAfter: 10000,
+          position: 'msg-on-rb',
+          container: $('body'),
+          type: 'success',
+          showCloseButton: true,
+          closeButtonText: "&times;",
+          autoHide: true
+        }
+
+        var options = $.extend({}, defaults, opt);
+
+
+        if ($('ul.' + options.position).size() <= 0) {
+          var $ul = $('<ul class="bootbox-messenger ' + options.position + '"></ul>').appendTo(options.container)
+        } else {
+          $ul = $('ul.' + options.position)
+        }
+        console.log($ul);
+        this.$msgItem = $('<li class="alert alert-' + options.type + '"><strong class="pull-left">' + options.msg + '</strong></li>');
+
+        if (options.showCloseButton && options.autoHide != true) {
+          var $cancel = $('<button type="button" class="bootbox-close-button close messenger-close">');
+          $cancel.html(options.closeButtonText);
+          var _this = this;
+          $cancel.on('click', $.proxy(this.hidemsg, this));
+          this.$msgItem.append($cancel);
+        }
+
+        this.$msgItem.hide().appendTo($ul).slideDown();
+
+        if (options.autoHide) {
+          setTimeout($.proxy(this.hidemsg, this), options.hideAfter)
+        }
+
+
+      },
+
+      hidemsg: function() {
+        // alert('click me')
+        this.$msgItem.slideUp()
+
       }
 
-     var options= $.extend({},defaults,opt);
+    }
+    //bootbox.msg('')
+  exports.msg = function(o) {
 
+      new _MSG(o)
 
-     if($('ul.'+options.position).size()<=0){
-     var $ul=$('<ul class="bootbox-messenger ' + options.position + '"></ul>').appendTo(options.container)
-     }else{
-      $ul=$('ul.'+options.position)
-     }
-     console.log($ul);
-     this.$msgItem=$('<li class="alert alert-'+options.type+'"><strong class="pull-left">'+options.msg+'</strong></li>');
+    },
 
-          if (options.showCloseButton && options.autoHide!=true) {
-       var $cancel = $('<button type="button" class="bootbox-close-button close messenger-close">');
-        $cancel.html(options.closeButtonText);
-        var _this=this;
-        $cancel.on('click',$.proxy( this.hidemsg, this ));
-        this.$msgItem.append($cancel);
+    exports.info = function(msg, callback, autohide) {
+      var options = {
+        message: msg,
+        title: '<i class="glyphicon glyphicon-envelope"></i>',
+        className: "modal-info",
+        size: 'small',
+        closeButton: false,
+        buttons: {
+          info: {
+            label: "确定",
+            className: "btn-info",
+            callback: callback
+          },
+
+        }
       }
+      exports.dialog(options);
+      if (autohide && typeof autohide === 'number') {
+        setTimeout(exports.hideAll, autohide)
+      }
+    };
 
-     this.$msgItem.hide().appendTo($ul).slideDown();
+  exports.warning = function(msg, callback) {
+    var options = {
+      message: msg,
+      title: '<i class="glyphicon glyphicon-warning-sign"></i>',
+      className: "modal-warning",
+      size: 'small',
+      closeButton: false,
+      buttons: {
+        warning: {
+          label: "确定",
+          className: "btn-warning",
+          callback: callback
+        },
 
-     if(options.autoHide){
-      setTimeout($.proxy( this.hidemsg, this ),options.hideAfter)
-     }
-
-
-     },
-
-     hidemsg:function(){
-      // alert('click me')
-      this.$msgItem.slideUp()
-
-     }
-
-  }
- //bootbox.msg('')
-  exports.msg=function(o){
-
-    new _MSG(o)
-
-  },
-
-  exports.info = function(msg,callback,autohide) {
-    var options={
-                message: msg,
-                title:'<i class="glyphicon glyphicon-envelope"></i>',
-                className: "modal-info",
-                size:'small',
-                closeButton:false,
-                buttons: {
-                    info: {
-                        label: "确定",
-                        className: "btn-info",
-                        callback: callback
-                    },
-
-                }
-            }
-     exports.dialog(options);
-     if(autohide && typeof autohide === 'number'){
-           setTimeout(exports.hideAll,autohide)
-     }
-  };
-
-    exports.warning = function(msg,callback) {
-    var options={
-                message: msg,
-                title:'<i class="glyphicon glyphicon-warning-sign"></i>',
-                className: "modal-warning",
-                size:'small',
-                closeButton:false,
-                buttons: {
-                    warning: {
-                        label: "确定",
-                        className: "btn-warning",
-                        callback: callback
-                    },
-
-                }
-            }
+      }
+    }
     return exports.dialog(options);
   };
 
-  exports.danger = function(msg,callback) {
-    var options={
-                message: msg,
-                title:'<i class="glyphicon glyphicon-ban-circle"></i>',
-                className: "modal-danger",
-                size:'small',
-                closeButton:false,
-                buttons: {
-                    danger: {
-                        label: "确定",
-                        className: "btn-danger",
-                        callback: callback
-                    },
+  exports.danger = function(msg, callback) {
+    var options = {
+      message: msg,
+      title: '<i class="glyphicon glyphicon-ban-circle"></i>',
+      className: "modal-danger",
+      size: 'small',
+      closeButton: false,
+      buttons: {
+        danger: {
+          label: "确定",
+          className: "btn-danger",
+          callback: callback
+        },
 
-                }
-            }
+      }
+    }
     return exports.dialog(options);
   };
 
-  exports.success = function(msg,callback) {
-    var options={
-                message: msg,
-                title:'<i class="glyphicon glyphicon-ok"></i>',
-                className: "modal-success",
-                size:'small',
-                closeButton:false,
-                buttons: {
-                    success: {
-                        label: "确定",
-                        className: "btn-success",
-                        callback: callback
-                    },
+  exports.success = function(msg, callback) {
+    var options = {
+      message: msg,
+      title: '<i class="glyphicon glyphicon-ok"></i>',
+      className: "modal-success",
+      size: 'small',
+      closeButton: false,
+      buttons: {
+        success: {
+          label: "确定",
+          className: "btn-success",
+          callback: callback
+        },
 
-                }
-            }
+      }
+    }
     return exports.dialog(options);
   };
 
@@ -461,11 +446,11 @@
     var options;
 
 
-    options={
-      message:'<i class="glyphicon glyphicon-refresh"></i>'+(arguments[0]  || 'loading...'),
-      className:'loading',
-      closeButton:false,
-      size:'small'
+    options = {
+      message: '<i class="glyphicon glyphicon-refresh"></i>' + (arguments[0] || 'loading...'),
+      className: 'loading',
+      closeButton: false,
+      size: 'small'
     }
 
     return exports.dialog(options);
@@ -496,10 +481,10 @@
   exports.confirm = function() {
     var options;
 
-    options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message","callback"],arguments);
+    options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
 
-    $.extend(options,{
-      size:'small'
+    $.extend(options, {
+      size: 'small'
     })
 
     /**
@@ -549,8 +534,7 @@
     };
 
     options = validateButtons(
-      mergeArguments(defaults, arguments, ["title", "callback"]),
-      ["confirm", "cancel"]
+      mergeArguments(defaults, arguments, ["title", "callback"]), ["confirm", "cancel"]
     );
 
 
@@ -672,7 +656,7 @@
         break;
 
       case "checkbox":
-        var values   = $.isArray(options.value) ? options.value : [options.value];
+        var values = $.isArray(options.value) ? options.value : [options.value];
         inputOptions = options.inputOptions || [];
 
         if (!inputOptions.length) {
@@ -754,15 +738,15 @@
   exports.dialog = function(options) {
 
 
-    if($('.bootbox').size()){
+    if ($('.bootbox').size()) {
       return;
-    } 
+    }
 
 
     options = sanitize(options);
 
     var dialog = $(templates.dialog);
-        console.log(dialog);
+    console.log(dialog);
 
     var innerDialog = dialog.find(".modal-dialog");
     var body = dialog.find(".modal-body");
@@ -780,7 +764,7 @@
       );
     }
 
-   
+
 
     each(buttons, function(key, button) {
 
@@ -797,7 +781,7 @@
       dialog.addClass("fade");
     }
 
-     if(options.formRb === true) {
+    if (options.formRb === true) {
       dialog.addClass("fade");
       dialog.addClass("formRb animated slideInUp");
     }
@@ -851,9 +835,12 @@
       if (e.target === this) {
         dialog.remove();
       }
+      // if (options.backdrop) {
+      //   dialog.next(".modal-backdrop").remove();
+      // }
     });
 
-    /*
+
     dialog.on("show.bs.modal", function() {
       // sadly this doesn't work; show is called *just* before
       // the backdrop is added so we'd need a setTimeout hack or
@@ -862,7 +849,7 @@
         dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
       }
     });
-    */
+
 
     dialog.on("shown.bs.modal", function() {
       // dialog.find(".btn-primary:first").focus();
@@ -937,7 +924,7 @@
     $(options.container).append(dialog);
 
     dialog.modal({
-      backdrop: options.backdrop ? "static": false,
+      backdrop: options.backdrop ? "static" : false,
       keyboard: false,
       show: false
     });
@@ -951,20 +938,20 @@
     // methods, e.g. var d = bootbox.alert(); d.hide(); instead
     // of d.modal("hide");
 
-   /*
-    function BBDialog(elem) {
-      this.elem = elem;
-    }
+    /*
+     function BBDialog(elem) {
+       this.elem = elem;
+     }
 
-    BBDialog.prototype = {
-      hide: function() {
-        return this.elem.modal("hide");
-      },
-      show: function() {
-        return this.elem.modal("show");
-      }
-    };
-    */
+     BBDialog.prototype = {
+       hide: function() {
+         return this.elem.modal("hide");
+       },
+       show: function() {
+         return this.elem.modal("show");
+       }
+     };
+     */
 
     return dialog;
 
@@ -996,11 +983,11 @@
    * unlikely to be required. If this gets too large it can be split out into separate JS files.
    */
   var locales = {
-    
-    zh_CN : {
-      OK      : "OK",
-      CANCEL  : "取消",
-      CONFIRM : "确认"
+
+    zh_CN: {
+      OK: "OK",
+      CANCEL: "取消",
+      CONFIRM: "确认"
     }
   };
 

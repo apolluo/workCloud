@@ -1,0 +1,4 @@
+D:\learn\nwjs-v0.12.3-win-x64>nw D:\doSomething\workCloud
+
+´ò°ü
+D:\learn\nwjs-v0.12.3-win-x64>copy /b nw.exe+workCloud.zip workCloud.exe

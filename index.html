@@ -1,50 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" ng-app='workCloud'>
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>workCloud</title>
-  <script src="js/jquery-1.11.3.min.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/exec.js"></script>
-  <script src="js/file.js"></script>
-  <script src="js/install/main.js"></script>
-
-
-  <script src="js/angular/angular.min.js"></script>
-  <script src="js/angular/angular-route.min.js"></script>
-  <script src="routes/controller.js"></script>
-  <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
-
-  <script src="ui/jstree.min.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="plugin/wc_gulpfile.js"></script>
-
-
   <link rel="stylesheet" href="ui/themes/default/style.min.css" />
   <!-- <link href="ui/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"> -->
   <!-- Bootstrap -->
-  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="ui/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="ui/bootbox_v2_for4.4.css" />
 
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- <script src="ui/bootbox.min.js"></script> -->
-    <script src="ui/bootbox_v2_for4.4.js"></script>
   <style>
     body{
 
     }
     .panel-collapse div{
       max-height: 300px;
-      overflow-y: scroll;
+      /*overflow-y: scroll;*/
     }
     #dialog-link {
       padding: .4em 1em .4em 20px;
@@ -84,9 +57,39 @@
     }*/
 
   </style>
+
+  <script src="js/jq/jquery-1.11.3.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script src="js/angular/angular.min.js"></script>
+  <script src="js/angular/angular-route.min.js"></script>
+
+  <script src="routes/controller.js"></script>
+  <script src="routes/c_main.js"></script>
+  <script src="routes/c_proj.js"></script>
+  <script src="routes/c_proj_config.js"></script>
+  <script src="routes/c_plugin.js"></script>
+  <script src="routes/c_settings.js"></script>
+  <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
+  <script src="ui/jstree.min.js"></script>
+  <script src="js/jq/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/exec.js"></script>
+  <script src="js/file.js"></script>
+  <script src="js/plugin.js"></script>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="ui/bootstrap/js/bootstrap.min.js"></script>
+    <!-- <script src="ui/bootbox.min.js"></script> -->
+    <script src="ui/bootbox_v2_for4.4.js"></script>
+  <script src="plugin/wc_gulpfile.js"></script>
 </head>
 
-<body ng-controller="mainCtrl">
+<body ng-controller="c_main">
 
   <script>
     function isSupportFileApi() {
@@ -96,41 +99,14 @@
       return false;
     }
     console.log(isSupportFileApi())
-      // var process = require('child_process');
-      // //直接调用命令
-      // exports.createDir = function (){process.exec('D: && cd testweb && md mydir',
-      //     function (error, stdout, stderr) {
-      //       if (error !== null) {
-      //         console.log('exec error: ' + error);
-      //       }
-      //   });
-      // }
-      // //调用执行文件
-      // exports.openApp = function(){
-      //   process.execFile('D:/testweb/aaa.bat',null,{cwd:'D:/'},
-      //     function (error,stdout,stderr) {
-      //       if (error !== null) {
-      //         console.log('exec error: ' + error);
-      //       }
-      //   });
-      // }
-      //
-      // exports.build = function (){process.exec('D: && cd D:\\工作\\AD2_proj\\branches\\mqq_news && gulp mqq',
-      //     function (error, stdout, stderr) {
-      //       if (error !== null) {
-      //         console.log('exec error: ' + error);
-      //       }
-      //   });
-      // }
-
   </script>
   <div class="bb-alert alert alert-info" style="display:none; position:fixed">
           <span>The examples populate this alert with dummy content</span>
       </div>
   <div class="main_left" style="float:left;width:200px; margin-left:20px;">
-    <div ng-include="'view/getProjs.html'"></div>
+    <div ng-include="'view/v_proj.html'"></div>
   </div>
-  <div class="main_right" style='float:left;width:520px;max-height:520px;overflow-y:scroll;overflow-x:hidden; margin-left:20px' ng-view>
+  <div class="main_right container" id='ngview' style='float:left;width:520px;height:520px; ' ng-view>
 
   </div>
 

@@ -1,6 +1,6 @@
 var db = require('./db');
 var Sequelize = require('sequelize');
-//实力
+//实例
 var sequelize = require('./sequelize')
 
 var Config = sequelize.define('Config', {

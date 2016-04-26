@@ -1,10 +1,27 @@
 <!-- <div class="proj" ng-controller="load_proj_config_ctrl"> -->
 <!-- 路由里定义，这里设置ng-controller会导致执行2次 -->
-<div class="proj">
+<div ng-show="!proj">
+  <h3>当前没有已加载的项目</h3>
+  <div class="jumbotron">
+    <blockquote class="blockquote text-info">
+      <ul>
+        <li>
+          若您已创建好项目，请点击左边<code>所有项目</code>，然后在下拉列表中选择您需要加载的项目，
+          并点击<code>加载</code>按钮。
+        </li>
+        <li>
+          若您没有创建任何项目，请点击左边<code>新增项目</code><span class='glyphicon glyphicon-arrow-right'></span><code>创建本地项目</code>。
+          <small><i>暂不支持创建线上项目</i></small>
+        </li>
+      </ul>
+    </blockquote>
+  </div>
+
+</div>
+<div class="proj-config" ng-show="proj">
+
   <h3>{{proj}}的项目配置</h3>
-
   <!-- <p>不能用P去重复，不然input无法绑定数据</p> -->
-
   <div class="panel-group" id="configPanel" role="tablist" aria-multiselectable="true">
     <div class='config panel panel-primary' ng-repeat='config in allConfigs'>
       <div class="panel-heading"  role="button" data-toggle="collapse" data-parent="#configPanel" href="#config_{{config.name}}" aria-expanded="true" aria-controls="config_{{config.name}}">
@@ -13,25 +30,27 @@
       <div id="config_{{config.name}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
 
-                <div class="input-group form-group">
-                  <span class="input-group-addon">配置类型：</span>
-                  <input type="text" class="form-control"   ng-model='config.type' >
-                </div>
-                <div class="input-group form-group">
-                  <span class="input-group-addon">配置内容：</span>
-                  <input type="text" class="form-control"   ng-model='config.cmdStr' >
-                </div>
-                <div class="input-group form-group">
-                  <span class="input-group-addon">配置文件：</span>
-                  <input type="text" class="form-control"   ng-model='config.configFile' >
-                </div>
-                <div class="input-group form-group">
-                  <span class="input-group-addon">配置说明：</span>
-                  <input type="text" class="form-control"   ng-model='config.info' >
-                </div>
-          <button class='btn btn-danger' id="save" ng-click="delete(config.id,$index)">删除</button>
-          <button class='btn btn-warning' id="save" ng-click="save(config)">修改</button>
-          <button class='btn btn-info' id="button" ng-click="run(config)">运行</button>
+          <ng-form name="form{{config.id}}">
+            <div class="input-group form-group">
+              <span class="input-group-addon">配置类型：</span>
+              <input type="text" class="form-control"   ng-model='config.type' >
+            </div>
+            <div class="input-group form-group">
+              <span class="input-group-addon">配置内容：</span>
+              <input type="text" class="form-control"   ng-model='config.cmdStr' >
+            </div>
+            <div class="input-group form-group">
+              <span class="input-group-addon">配置文件：</span>
+              <input type="text" class="form-control"   ng-model='config.configFile' >
+            </div>
+            <div class="input-group form-group">
+              <span class="input-group-addon">配置说明：</span>
+              <input type="text" class="form-control"   ng-model='config.info' >
+            </div>
+            <button class='btn btn-danger' id="save" ng-click="delete(config.id,$index)">删除</button>
+            <button class='btn btn-warning' id="save" ng-disabled='form{{config.id}}.$pristine' ng-click="save(config)">修改</button>
+            <button class='btn btn-info' id="button" ng-click="run(config)">运行</button>
+          </ng-form>
         </div>
       </div>
 
@@ -53,9 +72,9 @@
     <div  class="tab-pane active " id="home">
 
   <div class="panel-body">
-
+    <ng-form name='add_config_form'>
     <div class="input-group form-group">
-      <span class="input-group-addon">配置名：</span>
+      <span class="input-group-addon">配置名称：</span>
       <input type="text" class="form-control"   ng-model='configName' >
     </div>
     <div class="input-group form-group">
@@ -80,10 +99,10 @@
       <input type="text" class="form-control"   ng-model='info' >
     </div>
     <div style="float:right">
-      <button class='btn btn-info' id="button" ng-click="run()">运行</button>
-      <button class='btn btn-warning' id="save" ng-click="save()">保存</button>
+      <button class='btn btn-info' id="button" ng-disabled='add_config_form.$pristine' ng-click="run()">运行</button>
+      <button class='btn btn-warning' id="save" ng-disabled='add_config_form.$pristine' ng-click="save()">保存</button>
     </div>
-
+    </ng-form>
   </div>
 
 

@@ -129,6 +129,9 @@ wc.extend({
       //发布版本，即压缩版本
       .pipe(rename(config.release.name))
       .pipe(gulp.dest(config.release.path));
+      stream.on('data',function (data) {
+        console.log(data)
+      })
     if (log) {
       wc.log({
         state: 'loading',

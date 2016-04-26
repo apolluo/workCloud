@@ -1,23 +1,25 @@
-<div class="proj" ng-controller="getProjsCtrl">
-  <!-- <div>{{getProjsCtrl.projList}}</div> -->
+<div class="proj" ng-controller="c_proj">
+  <!-- <div>{{projCtrl.projList}}</div> -->
   <h3>我的项目</h3>
 
   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <div class="panel panel-primary">
       <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="headingOne">
-        <h4 class="panel-title" >
+        <h4 class="panel-title">
           当前项目:{{currentProj.name}}
       </h4>
       </div>
       <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-        <div id='projs' class="panel-body">
+        <div class="panel-body">
+          <div id='currentProj'>
 
+          </div>
         </div>
       </div>
     </div>
     <div class="panel panel-primary">
       <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="headingTwo">
-        <h4 class="panel-title collapsed" >
+        <h4 class="panel-title collapsed">
           所有项目
       </h4>
       </div>
@@ -29,7 +31,7 @@
     </div>
     <div class="panel panel-primary">
       <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="headingThree">
-        <h4 class="panel-title collapsed" >
+        <h4 class="panel-title collapsed">
           新增项目
       </h4>
       </div>
@@ -37,7 +39,7 @@
         <div class="panel-body">
 
           <p>
-            <button type="button"  ng-click="createProj('local')" class="btn btn-default" autocomplete="off">
+            <button type="button" ng-click="createProj('local')" class="btn btn-default" autocomplete="off">
               创建本地项目<span class="glyphicon glyphicon-link"></span>
             </button>
           </p>
@@ -52,59 +54,71 @@
 
     <div class="panel panel-primary">
       <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsefour" aria-expanded="false" aria-controls="collapseTwo" id="headingfour">
-        <h4 class="panel-title collapsed" >
+        <h4 class="panel-title collapsed">
           工具
       </h4>
       </div>
       <div id="collapsefour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
         <div class="panel-body">
-          <a href="#/plugin" >插件管理 <span class="glyphicon glyphicon-cog"></span></a><br>
-          <a href="#/settings" >软件设置 <span class="glyphicon glyphicon-cog"></span></a>
+          <a href="#/plugin">插件管理 <span class="glyphicon glyphicon-cog"></span></a>
+          <br>
+          <a href="#/settings">软件设置 <span class="glyphicon glyphicon-cog"></span></a>
         </div>
       </div>
     </div>
   </div>
-  <div id="dialog" title="创建新项目" style="display:none;">
-    <form id='createProjForm' method='post'  name='createProjForm' ng-submit='saveProj(createProjForm.$valid)' novalidate >
-      <div class="form-group">
-        <div class="input-group" ng-class="{ 'has-error' : createProjForm.projName.$invalid && !createProjForm.projName.$pristine }">
-          <span class="input-group-addon" id="basic-addon1">项&nbsp;目&nbsp;名:</span>
-          <input type="text" name='projName' ng-model='projName' ng-minlength="2" ng-maxlength="12" required class="form-control"  placeholder="不能为空，且不能少于2个字符、超过12个字符" aria-describedby="basic-addon1" >
-        </div>
 
-        <!-- <p ng-show="createProjForm.projName.$invalid && !createProjForm.projName.$pristine" class="help-block">项目名不能为空</p> -->
+  <div class='prjDialog hide'>
+    <!-- <div class="modal-dialog">
+      <div class="modal-content"> -->
+    <form id='createProjForm' method='post' name='createProjForm' ng-submit='saveProj(createProjForm.$valid)' novalidate>
+      <div class="form-group">
+        <div class="input-group " ng-class="{ 'has-error' : createProjForm.projName.$invalid && !createProjForm.projName.$pristine }">
+          <span class="input-group-addon" id="basic-addon1">项目名称:</span>
+          <input type="text" name='projName' ng-model='projName' ng-minlength="2" ng-maxlength="12" wc-unique-field="name" required
+            class="form-control " placeholder="必填，且不能少于2个字符、超过12个字符" aria-describedby="basic-addon1">
+        </div>
+        <!-- <p ng-show="createProjForm.projName.$invalid || !createProjForm.projName.$pristine" class="help-block">项目名不能为空</p> -->
+        <!-- invalid：验证未通过；pristine：未修改；$dirty：修改过； -->
+        <p ng-show="!createProjForm.projName.$pristine&&createProjForm.projName.$error.required" class="help-block">项目名不能为空</p>
         <p ng-show="createProjForm.projName.$error.minlength" class="help-block">项目名不能少于2个字符</p>
         <p ng-show="createProjForm.projName.$error.maxlength" class="help-block">项目名不能超过12个字符</p>
+        <p ng-show="createProjForm.projName.$error.unique" class="help-block">该项目名已经存在</p>
+
       </div>
 
       <div class="input-group">
         <span class="input-group-addon" id="basic-addon1">项目路径:</span>
-        <input type="text" id='projList' class="form-control" placeholder="单击选择项目目录" name='projList' ng-model='projList' >
+        <input type="text" id='projList' class="form-control" placeholder="单击选择项目目录" name='projList' ng-model='projList'>
 
       </div>
       <input type='file' name="projDir" id='projDir' style='visibility:hidden' ng-model='projDir' webkitdirectory>
-
-
-            <div class="input-group">
-              <span class="input-group-addon" id="basic-addon1">项目说明:</span>
-              <input name="info" class="form-control" ng-model='projInfo'>
-            </div>
-            <br><br>
-      <button style='float:right' type="submit" id="subitProj" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">项目说明:</span>
+        <input name="info" class="form-control" ng-model='projInfo'>
+      </div>
+      <br>
+      <br>
+      <button style='float:right' type="submit" id="subitProj"  ng-disabled='createProjForm.projName.$pristine||createProjForm.$invalid'  data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">
         提交
       </button>
     </form>
+    <!-- </div>
+    </div> -->
   </div>
 
-  <div id='projInfo' title="项目详情" style="display:none;">
-    <p>
-      项目名：{{targetProj.name}}
+  <div id='projInfo' style="display:none;">
+    <p class="text-muted">
+      项目名称：{{targetProj.name}}
     </p>
     <p>
-      项目路径：<input type='text' class='src' ng-model='targetProj.src' style="border:none;width:300px">
+      项目路径：
+      <input type='text' class='src' ng-model='targetProj.src' style="border:none;width:300px">
+
     </p>
     <p>
-      项目说明：<input type='text' class='info' ng-model='targetProj.info' style="border:none;width:300px">
+      项目说明：
+      <input type='text' class='info' ng-model='targetProj.info' style="border:none;width:300px">
     </p>
   </div>
 
@@ -114,18 +128,23 @@
 <script>
   //$("#accordion").accordion();
   //$('#subitProj').button();
-  $('#projList').click(function () {
+  $('#headingOne').click(function () {
+    window.location.href='#/proj_config'
+  })
+  $('#projList').on('focus',function() {
     $('#projDir').click();
+    this.blur();
   })
-  $('#projDir').on('change',function () {
-    $('#projList').val( $(this).val())
-    // console.log($(this))
+  $('#projDir').on('change', function() {
+    $('#projList').val($(this).val())
+      // console.log($(this))
   })
+
   $('#subitProj').on('click', function() {
       var $btn = $(this).button('loading')
-      //$('#createProjForm').submit();
-      // business logic...
-      //$btn.button('reset')
+        //$('#createProjForm').submit();
+        // business logic...
+        //$btn.button('reset')
     })
     // $('#projs').jstree({
     //   'core' : {

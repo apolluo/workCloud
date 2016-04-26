@@ -75,26 +75,30 @@ Projs.sync().then(function() {
   console.log(error)
   console.log('同步项目失败');
 })
-Projs.getProj = function(prj_src, callback) {
-  if (prj_src) {
-    Projs.findOne({
-      src: prj_src
-    }).then(
-      function(projs) {
-        callback(null, projs.get({
-          plain: true
-        }));
+Projs.getProj = function(name, callback) {
+  if (name) {
+    Projs.findOne(
+      {
+        where:{
+          name: name
+        }
       }
-    )
+      ).then(function(projs) {
+        
+        callback('success', projs);
+      })
+      .catch(function(error) {
+        callback('fail', error)
+      })
   } else {
-    Projs.findAll({
-      src: prj_src
-    }).then(
-      function(projs) {
-        //console.log('获取所有项目成功：',projs)
-        callback(null, projs);
-      }
-    )
+    Projs.findAll()
+      .then(function(projs) {
+        console.log('-----------------findAll success')
+        console.log(projs)
+        callback('success', projs);
+      }).catch(function(error) {
+        callback('fail', error)
+      })
   }
 
 }
@@ -112,19 +116,19 @@ Projs.save = function(data, callback) {
 }
 Projs.modify = function(data, callback) {
   Projs.update({
-    name: data[0],
-    src: data[1],
-    info: data[2]
-  }, {
-    where:{
-      name: data[3]
-    }
-  }).then(function(projs) {
-    callback('success', projs);
-  })
-  .catch(function(error) {
-    callback('fail', error)
-  })
+      name: data[0],
+      src: data[1],
+      info: data[2]
+    }, {
+      where: {
+        name: data[3]
+      }
+    }).then(function(projs) {
+      callback('success', projs);
+    })
+    .catch(function(error) {
+      callback('fail', error)
+    })
 }
 Projs.delete = function(name, callback) {
   console.log(name)
