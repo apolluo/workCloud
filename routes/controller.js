@@ -2,7 +2,7 @@
  * route controller
  * @type {[type]}
  */
-global._$ = jQuery;
+global._$=global.$ = jQuery;
 
 wc.extend({
   app: (function() {

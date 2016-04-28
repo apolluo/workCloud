@@ -72,7 +72,7 @@
       // Return the modified object
       return target;
     };
-    window.wc=wc;
+
     wc.extend({
       getLocalData:function(name){
         if(localStorage){
@@ -88,6 +88,7 @@
           console.log('不能保存数据：'+name)
         }
       }
-    })
+    });
+    window.wc=global.wc=wc;
   })
 )

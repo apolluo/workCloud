@@ -142,68 +142,32 @@ wc.extend({
 
   },
   buildJs: function(config) {
-    console.log('编译js:')
+    console.log('编译js:',config )
+    var buildJsByConfig=function (config) {
+      if('cmd'==config.type){
+        return this.cmd(config.cmdStr, null, true);
+      }
+      if(config.plugin){
+        var plugin=require('./plugin/node_modules/wc-plugin');
+        plugin(config.plugin).build(config,true)
+      }
       //wc.log({state:'start',txt:'编译js:'})
-    switch (config.type) {
-      case 'cmd':
-        this.cmd(config.cmdStr, null, true)
-          // var exec = require('child_process').exec;
-          // exec(config.cmdStr, function(err, stdout, stderr) {
-          //   if (err) {
-          //     console.log('error:' + stderr);
-          //   } else {
-          //     console.log(stdout);
-          //     //var data = JSON.parse(stdout);
-          //
-          //   }
-          // });
-        break;
-      case 'gulp':
-        console.log('gulp')
-        var _config = {
-          //要编译的项目目录
-          path: config.path,
-          //要编译的文件
-          //src: '*_temp.js',['js/**/*.js', '!js/**/*.min.js'],
-          src: config.src,
-          //type:'concat/temp',
-          type: config.type,
-          debug:{
-            path:config.debugPath,
-            name:config.debugName
-          },
-          release:{
-            path:config.releasePath,
-            name:config.releaseName
-          }
-            // ,
-            // compress: {
-            //   //it can't be array,why?
-            //   pure_funcs: 'console.log, b , alert',
-            //   "unused": true,
-            //   "dead_code": true,
-            //   "global_defs": {
-            //     "DEBUG": false,
-            //     "DIA_VERSION": '0.1.0'
-            //   }
-            // }
-        }
-        if (wc.gulp) {
-          wc.gulp(config.configFile,true);
-        } else {
-          $.getScript('./plugin/wc_gulp.js')
-            .done(function(data, state) {
-              //console.log(xhr)
-              console.log(state)
-              wc.gulp(config.configFile,true);
-            })
-            .fail(function(jqxhr, settings, exception) {
-              console.log(jqxhr, settings, exception);
-            });
-        }
-        break;
-      default:
-        break;
     }
+    if(config.configFile){
+      var configFile=config.configFile.replace(/\\/g, '\\\\');
+      configFile=configFile.replace(/\.js/g, '')
+      var wc_plugin_config=require(configFile);
+      console.log(wc_plugin_config)
+      if($.isArray(wc_plugin_config)){
+        $.each(wc_plugin_config,function (i,v) {
+          buildJsByConfig(v);
+        })
+      }else{
+        buildJsByConfig(wc_plugin_config);
+      }
+    }else{
+      buildJsByConfig(config);
+    }
+
   }
 })
