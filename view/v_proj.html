@@ -48,8 +48,6 @@
           </p>
         </div>
       </div>
-
-
     </div>
 
     <div class="panel panel-primary">
@@ -60,9 +58,12 @@
       </div>
       <div id="collapsefour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
         <div class="panel-body">
-          <a href="#/plugin">插件管理 <span class="glyphicon glyphicon-cog"></span></a>
-          <br>
-          <a href="#/settings">软件设置 <span class="glyphicon glyphicon-cog"></span></a>
+          <p>
+            <button type="button" id="plugin" class="btn btn-default">插件管理 <span class="glyphicon glyphicon-cog"></span></button>
+          </p>
+          <p>
+            <button type="button" id="settings" class="btn btn-default">软件设置 <span class="glyphicon glyphicon-cog"></span></button>
+          </p>
         </div>
       </div>
     </div>
@@ -128,8 +129,11 @@
 <script>
   //$("#accordion").accordion();
   //$('#subitProj').button();
-  $('#headingOne').click(function () {
+  $('#headingOne,#headingTwo').click(function () {
     window.location.href='#/proj_config'
+  })
+  $('#collapsefour button').click(function () {
+    window.location.href="#/"+$(this).attr('id');
   })
   $('#projList').on('focus',function() {
     $('#projDir').click();

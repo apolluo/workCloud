@@ -59,10 +59,14 @@ wc.app.controller('c_proj_config', function($scope, wcData) {
 
 	var saveCallBack = function(result, data) {
 		console.log(wc.getLocalData('current_proj') + '的配置保存成功')
-		console.log(data)
+		console.log(result,data)
 		bootbox.success(wc.getLocalData('current_proj') + '的配置保存成功', function() {
-			$scope.allConfigs.push(data);
-			$scope.$apply();
+			if('update success'==result){
+				$scope.$apply();
+			}else if ('success'==result) {
+				$scope.allConfigs.push(data);
+				$scope.$apply();
+			}
 		})
 
 	}

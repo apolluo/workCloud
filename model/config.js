@@ -50,7 +50,7 @@ Config.getConfig = function(prj, callback) {
       function(config) {
         console.log(callback)
         console.log(config)
-        callback('success', config)
+        callback('update success', config)
       })
   }
   Config.save = function(data, callback) {

@@ -164,10 +164,7 @@ wc.extend({
 
     },
     component=function (options) {
-
       this.options=options;
-
-
     }
     component.prototype.__defineSetter__('options',function (options) {
       console.log('hah')

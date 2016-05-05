@@ -22,7 +22,8 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 				wc.scroll('ngview')
 			})
 			.catch(function(data) {
-				wc.alert(data)
+				bootbox.danger(data)
+				//wc.alert(data)
 			})
 	}
 	$scope.install = function(name) {
@@ -38,12 +39,18 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 		wc.plugin('all').uninstall(name)
 			.then(
 				function() {
-					wc.alert('删除插件' + name + '成功')
+					//wc.alert('删除插件' + name + '成功')
+					setTimeout(function() {
+						bootbox.success('删除插件' + name + '成功');
+					},500);
 					listPlugins();
 				}
 			).catch(
 				function(err) {
-					wc.alert('删除插件' + name + '失败: ' + err)
+					//wc.alert('删除插件' + name + '失败: ' + err)
+					setTimeout(function() {
+						bootbox.danger('删除插件' + name + '失败: ' + err);
+					},500);
 					listPlugins();
 				}
 			)

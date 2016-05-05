@@ -1,21 +1,22 @@
 {
   "name": "wc_plugin_manager",
   "version": "0.1.0",
-  "description": "crystal gulp build tool",
+  "description": "workCloud plugin manager",
   "author": "apolluo <apolluo@hotmail.com>",
   "engines": {
     "node": ">= 0.8.0"
   },
   "dependencies": {},
   "devDependencies": {
+    "MD5": "~1.2.1",
     "gulp": "~3.6.2",
     "gulp-file-include": "~0.3.1",
+    "gulp-footer": "~1.0.4",
+    "gulp-rename": "~1.2.0",
     "gulp-replace": "0.3.0",
     "gulp-uglify": "~0.3.0",
-    "gulp-rename": "~1.2.0",
-    "gulp-footer": "~1.0.4",
-    "gulp-watch":"*",
+    "gulp-watch": "*",
     "moment": "~2.6.0",
-    "MD5": "~1.2.1"
+    "wc-plugin-gulp": "file:///D:\\doSomething\\workCloud\\projs\\gulp-include\\wc-plugin-gulp"
   }
 }

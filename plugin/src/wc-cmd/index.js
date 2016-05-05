@@ -10,26 +10,6 @@ wc.extend({
       bootbox.loading('加载中，请稍候...')
     }
 
-    //var exec = require('child_process').exec;
-    // exec(command,{
-    //   encoding: 'utf8',
-    // timeout: 1000*30, /*子进程最长执行时间 */
-    // maxBuffer: 2000*1024,  /*stdout和stderr的最大长度*/
-    // killSignal: 'SIGTERM',
-    // cwd: null,
-    // env: null
-    // }, function(err, stdout, stderr){
-    //   if (err) {
-    //     console.log('error:' + stderr);
-    //   } else {
-    //     console.log(stdout);
-    //     //var data = JSON.parse(stdout);
-    //   }
-    //   if(callback){
-    //     callback(err, stdout, stderr)
-    //   }
-    //
-    // });
     if (!command) {
       return Promise.reject();
     } else if ($.isArray(command)) { //按先后顺序

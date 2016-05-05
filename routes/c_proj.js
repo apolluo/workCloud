@@ -125,6 +125,7 @@
 	          $scope.projInfoDialog = document.getElementById('projInfo')
 	          $scope.projInfoDialog.style.display = 'block'
 	        }
+					bootbox.hideAll();
 	        bootbox.dialog({
 	          message: $scope.projInfoDialog,
 	          title: "项目详情",

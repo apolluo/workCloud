@@ -1,0 +1,45 @@
+{
+  "_args": [
+    [
+      "D:\\doSomething\\workCloud\\projs\\gulp-temp\\wc-plugin-gulp",
+      "D:\\doSomething\\workCloud\\plugin"
+    ]
+  ],
+  "_from": "..\\projs\\gulp-temp\\wc-plugin-gulp",
+  "_id": "wc-plugin-gulp@1.0.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/wc-plugin-gulp",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": null,
+    "raw": "D:\\doSomething\\workCloud\\projs\\gulp-temp\\wc-plugin-gulp",
+    "rawSpec": "D:\\doSomething\\workCloud\\projs\\gulp-temp\\wc-plugin-gulp",
+    "scope": null,
+    "spec": "D:\\doSomething\\workCloud\\projs\\gulp-temp\\wc-plugin-gulp",
+    "type": "directory"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "file:..\\projs\\gulp-temp\\wc-plugin-gulp",
+  "_shasum": "3f455baa4d67ab76d08a437b8547fdad420cbc79",
+  "_shrinkwrap": null,
+  "_spec": "D:\\doSomething\\workCloud\\projs\\gulp-temp\\wc-plugin-gulp",
+  "_where": "D:\\doSomething\\workCloud\\plugin",
+  "author": {
+    "email": "apolluo@hotmail.com",
+    "name": "apolluo"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT",
+  "main": "index.js",
+  "name": "wc-plugin-gulp",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
