@@ -1,0 +1,23 @@
+{
+  "name": "wc-build",
+  "version": "1.0.0",
+  "description": "build js in node-webkit for windows",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apolluo/wc-build.git"
+  },
+  "keywords": [
+    "build",
+    "js"
+  ],
+  "author": "apolluo <apolluo@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apolluo/wc-build/issues"
+  },
+  "homepage": "https://github.com/apolluo/wc-build#readme"
+}

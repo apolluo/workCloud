@@ -2,7 +2,8 @@ const ROOT = './'
 const PLUGIN_ROOT = './plugin/'
   //const PLUGIN_DIR = ''
 const PLUGIN_DIR = './plugin/node_modules/';
-var $ = require('jQuery')
+const PLUGIN_PKG='../../package.json'
+var $ = require('jquery')
 var pluginStore = $.extend(pluginStore, {
   all: {
     list: function(isGlobal) {
@@ -46,29 +47,36 @@ plugin.fn = plugin.prototype = {
 /**
  * @constructor
  */
-var init = plugin.fn.init = function(name) {
+var init = plugin.fn.init = function(name,param) {
   this.name = name;
+  if($.isPlainObject(param)){
+    $.extend(this,param);
+  }
+  console.log(this)
   //var _this = this;
   var pluginAPI = pluginStore[name];
   console.log('pluginStore', pluginStore)
     //not core plugin
   if (!pluginAPI) {
     pluginAPI = {};
-    delete require.cache[require.resolve('../../package.json')]
-    $.extend(pluginStore, require('../../package.json').devDependencies);
-    console.log('pluginStore', pluginStore)
-    if (pluginStore[name]) { //The plugin is installed as extend plugin.
+    // delete require.cache[require.resolve(PLUGIN_PKG)]
+    // $.extend(pluginStore, require(PLUGIN_PKG).devDependencies);
+    // console.log('pluginStore', pluginStore)
+    try {
+      //The plugin is installed as extend plugin.
       this.core = require(name);
       $.each(this.core, function(k, v) {
         pluginAPI[k] = {
           ex: v
         }
       })
-    } else { //The plugin hasn't been installed
-      pluginAPI = {
-        'install': 'cd plugin && npm install --save-dev '
-      }
+    } catch (e) {
+      //The plugin hasn't been installed
+        pluginAPI = {
+          'install': 'cd plugin && npm install --save-dev '
+        }
     }
+
   }
   console.log('pluginAPI', pluginAPI)
   $.each(pluginAPI, function(k, command) {

@@ -1,160 +1,111 @@
-wc.extend({
-  cmd: function(command, callback, log) {
-    console.log('cmd:' + command)
-    if (log) {
-      wc.log({
-        state: 'start',
-        txt: 'cmd:' + command
-      })
-    } else {
-      bootbox.loading('加载中，请稍候...')
-    }
+//var $ = require('jQuery');
+var cmd = function(command, callback, log) {
+  var _callback = callback || function() {
+    return arguments;
+  }
+  var _log = log || function() {
+    return arguments;
+  }
+  if (!command) {
+    _log({
+      state: 'error',
+      txt: 'The command is not found!'
+    })
+    return Promise.reject();
+  }
 
-    if (!command) {
-      return Promise.reject();
-    } else if ($.isArray(command)) { //按先后顺序
-      return command.reduce(function(prefCommand, currentCommand) {
-        console.log(prefCommand, currentCommand)
-        return wc.cmd(prefCommand)
+  if ($.isArray(command)) {
+    //parse command queue by order
+    return command.reduce(
+      function(prefCommand, currentCommand) {
+        return cmd(prefCommand,null,_log)
           .then(function() {
-            console.log('prefCommand ok then')
-            return wc.cmd(currentCommand)
+            return cmd(currentCommand,null,_log)
           })
           //return prefCommand.then(currentCommand)
       });
 
-    } else if ($.isPlainObject(command)) { //无先后顺序
-      var allPromis = []
-      $.each(command, function(k, v) {
-        allPromis.push(wc.cmd(v));
+  } else if ($.isPlainObject(command)) {
+    //parse command queue by random
+    var allPromis = []
+    $.each(command, function(k, v) {
+      allPromis.push(cmd(v,null,_log));
+    });
+    return Promise.all(allPromis);
+  } else {
+    //execute command
+    _log({
+      state: 'start',
+      txt: 'command start: ' + command
+    });
+    var _promise = new Promise(function(resolve, reject) {
+      var exec = require('child_process').exec;
+      var child = exec(command, {
+        encoding: 'utf-8'
       });
-      return Promise.all(allPromis);
-    } else {
-      var _promise = new Promise(function(resolve, reject) {
-
-        var exec = require('child_process').exec;
-        var child = exec(command, {
-          encoding: 'utf-8'
+      // var iconv = require('iconv-lite');
+      // var Buffer = require('bufferhelper');
+      var _data = [];
+      var _error = []
+        //var buffer
+      _log({
+        state: 'run',
+        txt: 'executing: ' + command
+      });
+      //child.stdout.setEncoding('utf-8')
+      //get msg from child
+      child.stdout.on('data', function(data) {
+        //  buffer = new Buffer(data);
+        // var str = iconv.decode(buffer, 'gbk');
+        _data.push(data);
+        var code = data.code || data;
+        _log({
+          state: 'run',
+          type: data.code,
+          txt: data
         });
-        // var iconv = require('iconv-lite');
-        // var Buffer = require('bufferhelper');
-        var _data = [];
-        var _error = []
-          //var buffer
-        console.log('promise on 监听data事件')
-          //child.stdout.setEncoding('utf-8')
-        child.stdout.on('data', function(data) {
-          //  buffer = new Buffer(data);
-          // var str = iconv.decode(buffer, 'gbk');
-          console.log('stdout: ' + data);
-          if (log)
-            wc.log({
-              state: 'loading',
-              txt: data
-            })
-          _data.push(data);
-          var code = data.code || data
-          switch (code) {
-            case 'error':
-              console.log('执行失败')
-              if (log)
-                wc.log({
-                  state: 'loading',
-                  txt: '执行失败'
-                })
-              reject();
-              break;
-            case 'ok':
-              console.log('执行成功')
-              if (log)
-                wc.log({
-                  state: 'loading',
-                  txt: '执行成功'
-                })
-              resolve();
-              break;
-          }
-        });
-        child.stdout.on('end', function(data) {
-          // var buffer = new Buffer(data);
-          // var str = iconv.decode(buffer.toBuffer(),'gbk');
-          console.log('stdend: ' + data);
-          if (log) {
-            wc.log({
-              state: 'loading',
-              txt: '---------------'
-            })
-          } else {
-            bootbox.hideAll();
-          }
-
-          //reject();
-        });
-        child.stderr.on('data', function(data) {
-          // buffer = new Buffer(data);
-          // var str = iconv.decode(buffer.toBuffer(),'gbk');
-          _error.push(data)
-          console.log('stderr: ' + data);
-          if (log)
-            wc.log({
-              state: 'loading',
-              txt: data
-            })
-            //reject();
-        });
-        child.on('close', function(code) {
-          if (callback) {
-            callback()
-          }
-          console.log('closing code: ' + code);
-          console.log('执行成功')
-          if (log)
-            wc.log({
-              state: 'loading',
-              txt: '执行结束'
-            })
-            //wc.log({state:'end'})
-          resolve(_data);
-        });
-      })
-      return _promise;
-    }
-  },
-
-  buildJs: function(config) {
-    console.log('编译js:', config)
-    var buildJsByConfig = function(config) {
-      if ('cmd' == config.type) {
-        return this.cmd(config.cmdStr, null, true);
-      }
-      if (config.plugin) {
-        var loadPlugin = require('./plugin/node_modules/wc-plugin');
-        var plugin = loadPlugin(config.plugin)
-          //The plugin hasn't been install.
-        if (plugin.install) {
-          //var pkg=require(config.path+'package.json');
-          plugin.install(config.path + config.plugin)
-        } else {
-          plugin.build(config, true)
+        switch (code) {
+          case 'error':
+            reject();
+            break;
+          case 'ok':
+            resolve();
+            break;
+          default:
+            reject();
+            break;
         }
+      });
 
-      }
-      //wc.log({state:'start',txt:'编译js:'})
-    }
-    if (config.configFile) {
-      var configFile = config.configFile.replace(/\\/g, '\\\\');
-      configFile = configFile.replace(/\.js/g, '')
-      var wc_plugin_config = require(configFile);
-      console.log(wc_plugin_config)
-      if ($.isArray(wc_plugin_config)) {
-        $.each(wc_plugin_config, function(i, v) {
-          buildJsByConfig(v);
+      child.stderr.on('data', function(data) {
+        _error.push(data)
+        _log({
+            state: 'run',
+            type: 'error',
+            txt: data
+          })
+          //reject();
+      });
+
+      child.stdout.on('end', function(data) {
+        _log({
+            state: 'run',
+            type: 'end',
+            txt: 'command complete'
+          })
+          //reject();
+      });
+      child.on('close', function(code) {
+        _callback();
+        _log({
+          state: 'stop',
+          type: 'close',
+          txt: 'close cmd process'
         })
-      } else {
-        buildJsByConfig(wc_plugin_config);
-      }
-    } else {
-      buildJsByConfig(config);
-    }
+        resolve(_data);
+      });
+    })
+    return _promise;
   }
-})
+}
+module.exports=cmd;

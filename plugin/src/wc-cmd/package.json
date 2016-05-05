@@ -1,0 +1,30 @@
+{
+  "name": "wc-cmd",
+  "version": "1.0.4",
+  "description": "execute command line on windows",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apolluo/wc-cmd.git"
+  },
+  "keywords": [
+    "cmd",
+    "command",
+    "line"
+  ],
+  "author": "apolluo <apolluo@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apolluo/wc-cmd/issues"
+  },
+  "homepage": "https://github.com/apolluo/wc-cmd#readme",
+  "dependencies":{
+    "jquery":"2.2.3"
+  },
+  "devDependencies": {
+
+  }
+}
