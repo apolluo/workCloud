@@ -1,0 +1,23 @@
+{
+  "name": "wc-log",
+  "version": "1.0.0",
+  "description": "show debug log",
+  "main": "log.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apolluo/wc-log.git"
+  },
+  "keywords": [
+    "debug",
+    "log"
+  ],
+  "author": "apolluo <apolluo@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apolluo/wc-log/issues"
+  },
+  "homepage": "https://github.com/apolluo/wc-log#readme"
+}

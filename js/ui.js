@@ -2,7 +2,7 @@ $('#button').button();
 //$("#ngview").niceScroll({cursorcolor:"#00F"});
 wc.extend({
   scroll: function(selector) {
-    selector=(selector.indexOf('#')==0)?selector:'#'+selector
+    selector = (selector.indexOf('#') == 0) ? selector : '#' + selector
     $(selector).niceScroll({
       cursorcolor: "#ccc",
       cursorwidth: "10px",
@@ -28,7 +28,7 @@ wc.extend({
         }
       });
     }
-    $(_list).css('max-height', parseInt($(_list).parent().css('max-height')) -25);
+    $(_list).css('max-height', parseInt($(_list).parent().css('max-height')) - 25);
     wc.scroll(_list)
       // var _data = data;
       // loadProj(data.text)
@@ -58,12 +58,39 @@ wc.extend({
   //
   //   return that;
   // }()),
+  /**
+   * [function description]
+   * @param  {[type]} msg [
+   * log(1,2,3),
+   * log(''),
+   * log({
+   * 	state:'start/loading/run/end/close/stop',
+   * 	type:'error/warn/data',
+   * 	txt:[]/{}/''
+   * })]
+   * @return {[type]}     [description]
+   */
   log: function(msg) {
     if (msg) {
+      var _txt = '';
+      if (msg.hasOwnProperty('txt')) {
+        if ($.isArray(msg.txt)) {
+          _txt = msg.txt.join(" ");
+        } else if ($.isPlainObject(msg.txt)) {
+          _txt = JSON.stringify(msg.txt);
+        } else if ($.isFunction(msg.txt)) {
+          _txt = msg.txt();
+        } else {
+          _txt = msg.txt;
+        }
+      } else {
+        _txt = [].slice.call(arguments).join(" ")
+      }
+
       switch (msg.state) {
         case 'start':
           bootbox.dialog({
-            message: '<ul id="wc_log_txt" style="max-height:250px;overflow-y:scroll;"><li>' + msg.txt + '</li></ul>',
+            message: '<ul id="wc_log_txt" style="max-height:250px;overflow-y:scroll;"><li>' + _txt + '</li></ul>',
             title: "消息提醒",
             className: "wc_log",
             formRb: true,
@@ -71,7 +98,8 @@ wc.extend({
           });
           break;
         case 'loading':
-          $('#wc_log_txt').append('<li>' + msg.txt + '</li>')
+        case 'run':
+          $('#wc_log_txt').append('<li>' + _txt + '</li>')
           break;
         case 'end':
           setTimeout(function() {
@@ -79,13 +107,7 @@ wc.extend({
           }, 3000);
           break;
         default:
-          bootbox.dialog({
-            message: msg,
-            title: "消息提醒",
-            className: "wc_log",
-            formRb: true,
-            backdrop: false
-          });
+          $('#wc_log_txt').append('<li>' + _txt + '</li>')
           break;
 
       }
@@ -128,57 +150,56 @@ wc.extend({
       }
     });
   },
-  modal:(function () {
+  modal: (function() {
     var templates = {
-      dialog: "<div class='modal fade' tabindex='-1' role='dialog'>" +
-        "<div class='modal-dialog'>" +
-        "<div class='modal-content'>" +
-        "<div class='modal-body'><div class='bootbox-body'></div></div>" +
-        "</div>" +
-        "</div>" +
-        "</div>",
-      header: "<div class='modal-header'>" +
-        "<h4 class='modal-title'></h4>" +
-        "</div>",
-      footer: "<div class='modal-footer'></div>",
-      closeButton: "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
+        dialog: "<div class='modal fade' tabindex='-1' role='dialog'>" +
+          "<div class='modal-dialog'>" +
+          "<div class='modal-content'>" +
+          "<div class='modal-body'><div class='bootbox-body'></div></div>" +
+          "</div>" +
+          "</div>" +
+          "</div>",
+        header: "<div class='modal-header'>" +
+          "<h4 class='modal-title'></h4>" +
+          "</div>",
+        footer: "<div class='modal-footer'></div>",
+        closeButton: "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
 
-      success: '<div class="modal-dialog">' +
-        '<div class="modal-content">' +
-        '<div class="modal-header">' +
-        '<i class="glyphicon glyphicon-check"></i>' +
-        '</div>' +
-        '<div class="modal-title"></div>' +
-        '<div class="modal-body"></div>' +
-        '<div class="modal-footer">' +
-        '<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>' +
-        '</div>' +
-        '</div>' +
-        ' </div> ' +
-        '</div>'
+        success: '<div class="modal-dialog">' +
+          '<div class="modal-content">' +
+          '<div class="modal-header">' +
+          '<i class="glyphicon glyphicon-check"></i>' +
+          '</div>' +
+          '<div class="modal-title"></div>' +
+          '<div class="modal-body"></div>' +
+          '<div class="modal-footer">' +
+          '<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>' +
+          '</div>' +
+          '</div>' +
+          ' </div> ' +
+          '</div>'
 
-    }
-    ,
-    queue={},
-    state=function () {
+      },
+      queue = {},
+      state = function() {
 
-    },
-    component=function (options) {
-      this.options=options;
-    }
-    component.prototype.__defineSetter__('options',function (options) {
+      },
+      component = function(options) {
+        this.options = options;
+      }
+    component.prototype.__defineSetter__('options', function(options) {
       console.log('hah')
-      //单一，不会被销毁
-      if(options.id){
+        //单一，不会被销毁
+      if (options.id) {
         //初始化
-        if(!queue[options.id]){
-          this.id=options.id;
-          this.template=$(templates.dialog);
-          this.template.attr('id',options.id);
+        if (!queue[options.id]) {
+          this.id = options.id;
+          this.template = $(templates.dialog);
+          this.template.attr('id', options.id);
           var body = this.template.find(".modal-body");
-          if (typeof options.message=='string') {
+          if (typeof options.message == 'string') {
             body.find(".bootbox-body").html(options.message);
-          }else{
+          } else {
             body.find(".bootbox-body").append(options.message);
           }
 
@@ -187,7 +208,7 @@ wc.extend({
             this.template.find('.modal-title').html(options.title);
           }
           var buttons = options.buttons;
-          console.log(options.closeButton,'cl')
+          console.log(options.closeButton, 'cl')
           if (options.closeButton) {
             var closeButton = $(templates.closeButton);
 
@@ -199,39 +220,38 @@ wc.extend({
           }
 
           $('body').append(this.template)
-          queue[options.id]={
-            target:this.template,
-            isInit:true
+          queue[options.id] = {
+            target: this.template,
+            isInit: true
           }
         }
 
-          $('#'+options.id).modal('show')
+        $('#' + options.id).modal('show')
 
-      }else{
+      } else {
 
       }
     })
 
-    var dialog=function (options) {
-      if(!options.hasOwnProperty('closeButton')||options.closeButton!==false){
-        options.closeButton=true;
+    var dialog = function(options) {
+        if (!options.hasOwnProperty('closeButton') || options.closeButton !== false) {
+          options.closeButton = true;
+        }
+        return new component(options);
       }
-      return new component(options);
-    }
-    //  dialog.init = function (options) {
-    // }
+      //  dialog.init = function (options) {
+      // }
 
     //dialog.init.prototype=component;
     //dialog.init.prototype=component.prototype;
-    return{
-      dialog:dialog
-       ,
+    return {
+      dialog: dialog,
       // loading:loading,
       // success:success,
       // danger:danger,
-       hideAll:function () {
-         $('.modal').modal('hide')
-       }
+      hideAll: function() {
+        $('.modal').modal('hide')
+      }
 
     }
   }())

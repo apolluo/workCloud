@@ -1,19 +1,18 @@
-//var $ = require('jQuery');
+var $ = $||require('jquery');
 var cmd = function(command, callback, log) {
   var _callback = callback || function() {
     return arguments;
   }
-  var _log = log || function() {
-    return arguments;
-  }
+  var _log = $.isFunction(log)?log :log? function msg(msg) {
+    console.log(msg)
+  }:new Function();
   if (!command) {
     _log({
       state: 'error',
       txt: 'The command is not found!'
     })
-    return Promise.reject();
+    return Promise.reject('The command is not found!');
   }
-
   if ($.isArray(command)) {
     //parse command queue by order
     return command.reduce(
@@ -46,7 +45,6 @@ var cmd = function(command, callback, log) {
       // var iconv = require('iconv-lite');
       // var Buffer = require('bufferhelper');
       var _data = [];
-      var _error = []
         //var buffer
       _log({
         state: 'run',
@@ -57,30 +55,38 @@ var cmd = function(command, callback, log) {
       child.stdout.on('data', function(data) {
         //  buffer = new Buffer(data);
         // var str = iconv.decode(buffer, 'gbk');
-        _data.push(data);
+        _data.push({
+          type:'data',
+          data:data
+        });
         var code = data.code || data;
         _log({
           state: 'run',
-          type: data.code,
+          type: 'data code:'+ data.code,
           txt: data
         });
-        switch (code) {
-          case 'error':
-            reject();
-            break;
-          case 'ok':
-            resolve();
-            break;
-          default:
-            reject();
-            break;
-        }
+        // switch (code) {
+        //   case 'error':
+        //     // reject();
+        //     break;
+        //   case 'ok':
+        //     //resolve();
+        //     break;
+        //   default:
+        //     //reject();
+        //     break;
+        // }
       });
 
       child.stderr.on('data', function(data) {
-        _error.push(data)
+        //_error.push(data)
+        _data.push({
+          type:'error',
+          data:data
+        });
         _log({
             state: 'run',
+            //it's difficult to differentiate betweent warn and error
             type: 'error',
             txt: data
           })
@@ -88,6 +94,10 @@ var cmd = function(command, callback, log) {
       });
 
       child.stdout.on('end', function(data) {
+        _data.push({
+          type:'end',
+          data:data
+        });
         _log({
             state: 'run',
             type: 'end',
@@ -96,6 +106,10 @@ var cmd = function(command, callback, log) {
           //reject();
       });
       child.on('close', function(code) {
+        _data.push({
+          type:'close',
+          data:code
+        });
         _callback();
         _log({
           state: 'stop',

@@ -97,7 +97,8 @@
         }
       },
       cmd:require(PLUGIN_DIR+'wc-cmd'),
-      buildJs:require(PLUGIN_DIR+'wc-build').buildJs
+      buildJs:require(PLUGIN_DIR+'wc-build').buildJs,
+      plugin:require(PLUGIN_DIR+'wc-plugin')
     });
     window.wc=global.wc=wc;
   })

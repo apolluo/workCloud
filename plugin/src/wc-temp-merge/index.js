@@ -1,34 +1,38 @@
-var through = require("through2");
-console.log('----merge----')
-console.log(through)
-var path = require("path");
-console.log(path)
-
 const PLUGIN_NAME = "gulp-template-merge";
-
-function merge(jsfiles) {
-    //console.log(jsfiles);
+var through = require("through2");
+var path = require("path");
+var _log;
+function merge(log) {
+   _log = $.isFunction(log)?log :log? function msg(msg) {
+    console.log(msg)
+  }:new Function();
+  
     var stream = through.obj(function(file, enc, callback) {
         if (file.isNull()) {
             this.push(file);
             return callback();
         }
         if (file.isBuffer()) {
-            // console.log(file.path);
-            // console.log(path.dirname(file.path));
+            // _log(file.path);
+            // _log(path.dirname(file.path));
             var ret = generate(file.path, path.dirname(file.path));
             var buf = new Buffer(ret);
             file.contents = buf;
-            // console.log(ret);
+            // _log(ret);
             this.push(file);
             return callback();
         }
         if (file.isStream()) {
+          _log({
+            state:'run',
+            type:'error',
+            txt:"Steams are not supported!"
+          })
             this.emit("error", new PluginError(PLUGIN_NAME, "Steams are not supported!"));
             return callback();
         }
     }).on("end", function() {
-        console.log(PLUGIN_NAME + " process over!");
+        _log(PLUGIN_NAME + " process over!");
     });
     return stream;
 }
@@ -42,21 +46,20 @@ function merge(jsfiles) {
  */
 var fs = require("fs");
 var _ = require("underscore");
-var path = require("path");
 var os = require("os");
 
 //var config = require("./jsbuild/crystal_config").getConfig();
-//console.log(config);
+//_log(config);
 //return;
 
 //读取模板文件
 function readTemplate(template_file) {
     var template_content = '';
-    //console.log(template_file);
+    //_log(template_file);
     try {
         template_content = fs.readFileSync(template_file, 'utf8');
     } catch (e) {
-        //console.log(e);
+        //_log(e);
     }
     return template_content;
 }
@@ -71,7 +74,7 @@ function parseRequire(comment_header) {
      * "* require:xxx,xxx,xxx" 必须写在模板文件开头
      */
     //var comment_header = template_content.split(os.EOL,30);  //截取前30行注释
-    //console.log(comment_header)
+    //_log(comment_header)
     var modules = [];
     _.each(comment_header, function(n, i) {
         var pos = n.indexOf("* require:");
@@ -91,12 +94,12 @@ function parseRequire(comment_header) {
         if (n.indexOf(".") > -1) {
             return n;
         }
-        //console.log(namespace);
+        //_log(namespace);
         return namespace + "." + n;
     });
-    //console.log(namespace)
-    //console.log(name);
-    //console.log(modules);
+    //_log(namespace)
+    //_log(name);
+    //_log(modules);
     return {
         'namespace': namespace.trim(),
         'name': name,
@@ -106,21 +109,21 @@ function parseRequire(comment_header) {
 
 //加载模块并替换
 function generate(file, root, platform, params) {
-    // console.log("generate:", arguments);
+    // _log("generate:", arguments);
     var template_file = file;
-    //console.log(__filename,template_file);
+    //_log(__filename,template_file);
     if (!fs.existsSync(template_file)) {
-        console.log(template_file, ",File Not Exists");
+        _log(template_file, ",File Not Exists");
         return false;
     }
     //压缩模版文件所在目录
     var code_root = root;
     var content = readTemplate(template_file).split("\n");
-    // console.log(content);
+    // _log(content);
     var ret = parseRequire(content.slice(0, 30));
-    // console.log(ret);
+    // _log(ret);
     var require_modules = ret['requires'];
-    //console.log(require_modules);
+    //_log(require_modules);
     var namespace = ret['namespace'];
     var name = ret['name'];
 
@@ -128,15 +131,15 @@ function generate(file, root, platform, params) {
         //var r = row.replace('\S','');
         if (/\{PARAM\d\}/i.test(row)) {
             var t = row.match(/\{PARAM(\d)\}/);
-            // console.log(params);
-            // console.log(t);
+            // _log(params);
+            // _log(t);
             var replace_str = params["param" + t[1]].substr(1, params["param" + t[1]].length - 2);
             row = row.replace(/\{PARAM\d\}/g, replace_str);
-            //console.log(row);
+            //_log(row);
         } else if (row.indexOf("//{cry_") > -1) {
-            //console.log("Find module");
+            //_log("Find module");
             var matches = row.match(/\/\/\{([^\(]*)?(\(.*\))?\}/);
-            // console.log(matches[1]);
+            // _log(matches[1]);
             var targetModule = matches[1].substr(4);
             if (typeof matches[2] !== 'undefined') {
                 var p = matches[2].substr(1, matches[2].length - 2).split(",");
@@ -153,16 +156,16 @@ function generate(file, root, platform, params) {
             var file = '';
             //暂时不需要在head处加require指示
             targetFlag = true;
-            //console.log(targetFlag);
+            //_log(targetFlag);
             var config = {
                 platform: namespace
             };
-            // console.log(config);
+            // _log(config);
             if (targetFlag) {
-                // console.log(targetModule,namespace)
+                // _log(targetModule,namespace)
                 newtargetModule = targetModule.replace(namespace, config.platform);
                 file = code_root + path.sep + newtargetModule.replace(".", path.sep) + ".js";
-                // console.log("File1:", file);
+                // _log("File1:", file);
                 if (!fs.existsSync(file)) {
                     file = code_root + path.sep + targetModule.replace(".", path.sep) + ".js";
                 }
@@ -171,12 +174,12 @@ function generate(file, root, platform, params) {
                     newtargetModule = targetModule.replace(namespace, "core");
                     file = code_root + path.sep + newtargetModule.replace(".", path.sep) + ".js";
                 }
-                //console.log(path.dirname(file));
-                // console.log("File2:", file);
+                //_log(path.dirname(file));
+                // _log("File2:", file);
                 var content = generate(file, root, platform); //此处实现了递归
                 if (!content) content = "";
-                //console.log(file);
-                //console.log(content);
+                //_log(file);
+                //_log(content);
                 return content;
             } else {
                 return row;
@@ -184,7 +187,7 @@ function generate(file, root, platform, params) {
         }
         return row;
     });
-    //console.log(require_modules);
+    //_log(require_modules);
     return ret.join(os.EOL);
 }
 
@@ -198,7 +201,7 @@ function generate(file, root, platform, params) {
 //  */
 
 // if(!fs.existsSync(config.root)) {
-//   console.log("Directory root Not Exists, please check config file!");
+//   _log("Directory root Not Exists, please check config file!");
 // } else {
 //   _.each(config.original,function(n,i) {
 //     var target_code = generate(config.root+path.sep+n.replace(".js","_temp.js"));

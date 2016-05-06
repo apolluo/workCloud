@@ -1,9 +1,5 @@
-const ROOT = './'
-const PLUGIN_ROOT = './plugin/'
-  //const PLUGIN_DIR = ''
-const PLUGIN_DIR = './plugin/node_modules/';
-const PLUGIN_PKG='../../package.json'
-var $ = require('jquery')
+var $ =$|| require('jquery')
+
 var pluginStore = $.extend(pluginStore, {
   all: {
     list: function(isGlobal) {
@@ -32,16 +28,16 @@ var pluginStore = $.extend(pluginStore, {
     check: 'node -v'
   }
 })
-
-var plugin = function(name) {
+var _log;
+var plugin = function(name,log) {
+  _log = $.isFunction(log)?log :log? function msg() {
+   console.log.apply(console,arguments)
+ }:new Function();
   return new plugin.fn.init(name)
 }
 plugin.fn = plugin.prototype = {
-  name: null,
-  v: null,
-  ROOT: ROOT,
-  PLUGIN_ROOT: PLUGIN_ROOT,
-  PLUGIN_DIR: PLUGIN_DIR
+  name: 'wc-plugin',
+  v: null
 }
 
 /**
@@ -49,13 +45,24 @@ plugin.fn = plugin.prototype = {
  */
 var init = plugin.fn.init = function(name,param) {
   this.name = name;
+  var path=require('path')
+  // console.log('path---------:'+path.resolve('./'))
+  // console.log(__dirname)
+  // console.log(__filename)
+  // console.log(process.cwd())
+  // console.log(path.resolve( __dirname,'../'))
+
+  this.NODE_ROOT= process.cwd()
+  this.PLUGIN_DIR= __dirname
+  this.PLUGIN_ROOT= path.resolve( this.PLUGIN_DIR,'../../')
+
   if($.isPlainObject(param)){
     $.extend(this,param);
   }
-  console.log(this)
+  //console.log(this)
   //var _this = this;
   var pluginAPI = pluginStore[name];
-  console.log('pluginStore', pluginStore)
+  //console.log('pluginStore', pluginStore)
     //not core plugin
   if (!pluginAPI) {
     pluginAPI = {};
@@ -73,26 +80,29 @@ var init = plugin.fn.init = function(name,param) {
     } catch (e) {
       //The plugin hasn't been installed
         pluginAPI = {
-          'install': 'cd plugin && npm install --save-dev '
+          'install': 'cd '+this.PLUGIN_ROOT+' && npm install --save-dev '
         }
     }
 
   }
-  console.log('pluginAPI', pluginAPI)
+  var cmd=require('wc-cmd')
+  //console.log('pluginAPI', pluginAPI)
   $.each(pluginAPI, function(k, command) {
     switch (k) {
       case 'install':
-        plugin.fn[k] = function(pkg) {
+        plugin.fn[k] = function(pkg,log) {
           if (pkg) {
-            return wc.cmd(command + pkg).then(function() {
+            return cmd(command + pkg,null,log).then(function() {
+              //console.log('install over')
               delete plugin.fn[k];
+              //console.log(plugin.fn)
             });
           }
-          return wc.cmd([
+          return cmd([
             command,
             pluginAPI.check,
             'npm install ' + pluginAPI.require.join(" ") + ' --save-dev'
-          ].join(' && '), null, true)
+          ].join(' && '), null, log)
         }
         break;
         // case 'build':
@@ -102,11 +112,11 @@ var init = plugin.fn.init = function(name,param) {
       default:
         plugin.fn[k] = function() {
           if ($.isFunction(command)) {
-            return wc.cmd(command.apply(null, arguments))
+            return cmd(command.apply(null, arguments),null,true)
           } else if ($.isPlainObject(command)) {
             return command.ex.apply(null, arguments);
           } else {
-            return wc.cmd(command, null, true);
+            return cmd(command, null, true);
           }
         }
     }
