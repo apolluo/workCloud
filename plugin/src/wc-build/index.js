@@ -2,9 +2,9 @@ var cmd=require('wc-cmd');
 
 var buildJs = function(config,log) {
   var $=$||require('jquery');
-  var _log = $.isFunction(log)?log :log? function msg(msg) {
-    console.log(msg)
-  }:new Function();
+  var _log = $.isFunction(log)?log :log? function msg() {
+   console.log.apply(console,arguments)
+ }:new Function();
   _log({
     state:'start',
     txt:'build js start'
@@ -56,31 +56,38 @@ var buildJs = function(config,log) {
     }
     //wc.log({state:'start',txt:'编译js:'})
   }
-
-  if (config.configFile) {
-    var configFile = config.configFile.replace(/\\/g, '\\\\');
-    configFile = configFile.replace(/\.js/g, '')
-    var wc_plugin_config = require(configFile);
-    _log({
-      state:'run',
-      txt:['parse config file',wc_plugin_config]
-    })
-    // if ($.isArray(wc_plugin_config)) {
-    if (Array.isArray(wc_plugin_config)) {
-      //executing command by order
-      wc_plugin_config.reduce(function _buildJsByConfigOrder(prefCommand,currentCommand) {
-        return buildJsByConfig(prefCommand).then(function () {
-          return buildJsByConfig(currentCommand);
-        })
+  setTimeout(function() {
+    if (config.configFile) {
+      var configFile = config.configFile.replace(/\\/g, '\\\\');
+      configFile = configFile.replace(/\.js/g, '')
+      var wc_plugin_config = require(configFile);
+      _log({
+        state:'run',
+        txt:['parse config file',wc_plugin_config]
       })
-      // $.each(wc_plugin_config, function(i, v) {
-      //   buildJsByConfig(v);
-      // })
+      // if ($.isArray(wc_plugin_config)) {
+      if (Array.isArray(wc_plugin_config)) {
+        if(wc_plugin_config.length==0){
+          return Promise.reject(new Error('WC PLUGIN CONFIG ERROR!')) ;
+        }else if (wc_plugin_config.length==1) {
+          return buildJsByConfig(wc_plugin_config[0]);
+        }
+        //executing command by order
+        wc_plugin_config.reduce(function _buildJsByConfigOrder(prefCommand,currentCommand) {
+          return buildJsByConfig(prefCommand).then(function () {
+            return buildJsByConfig(currentCommand);
+          })
+        })
+        // $.each(wc_plugin_config, function(i, v) {
+        //   buildJsByConfig(v);
+        // })
+      } else {
+        buildJsByConfig(wc_plugin_config);
+      }
     } else {
-      buildJsByConfig(wc_plugin_config);
+      buildJsByConfig(config);
     }
-  } else {
-    buildJsByConfig(config);
-  }
+  },500)
+
 }
 module.exports.buildJs = buildJs;

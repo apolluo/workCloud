@@ -19,6 +19,7 @@
     "moment": "~2.6.0",
     "wc-build": "^1.0.0",
     "wc-cmd": "^1.0.4",
+    "wc-plugin-grunt": "file:///D:\\doSomething\\workCloud\\projs\\grunt\\wc-plugin-grunt",
     "wc-plugin-gulp": "file:///D:\\doSomething\\workCloud\\projs\\gulp-include\\wc-plugin-gulp"
   }
 }

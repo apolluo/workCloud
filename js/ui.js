@@ -90,24 +90,40 @@ wc.extend({
       switch (msg.state) {
         case 'start':
           bootbox.dialog({
-            message: '<ul id="wc_log_txt" style="max-height:250px;overflow-y:scroll;"><li>' + _txt + '</li></ul>',
+            message: '<ul id="wc_log_txt" style="max-height:250px;overflow-y:scroll;"><li class="text-info"><b>' + _txt + '</b></li></ul>',
             title: "消息提醒",
             className: "wc_log",
             formRb: true,
             backdrop: false
           });
           break;
-        case 'loading':
-        case 'run':
-          $('#wc_log_txt').append('<li>' + _txt + '</li>')
-          break;
+
         case 'end':
           setTimeout(function() {
             $('.wc_log').modal("hide");
           }, 3000);
           break;
+        case 'loading':
+          _txt += "..."
+        case 'run':
+          _txt = msg.state == 'run' ? ('<b>' + _txt + '</b>') : _txt;
+          _txt += msg.type == 'success' ? "<hr/>" : ""
         default:
-          $('#wc_log_txt').append('<li>' + _txt + '</li>')
+          var _class = "";
+          switch (msg.type) {
+            case 'error':
+              _class = 'danger'
+              break;
+            case 'warn':
+              _class = 'warning'
+              break;
+            default:
+              _class = msg.type||"default"
+              break;
+          }
+          setTimeout(function() {
+          $('#wc_log_txt').append('<li class="text-' + _class + ' ">' + _txt + '</li>')
+        },1000);
           break;
 
       }

@@ -120,12 +120,13 @@
 	      }
 	      $scope.targetProj = wcData.projs[name];
 	      $scope.$apply();
+				wc.modal.hideAll();
 	      setTimeout(function() {
 	        if (!$scope.projInfoDialog) {
 	          $scope.projInfoDialog = document.getElementById('projInfo')
 	          $scope.projInfoDialog.style.display = 'block'
 	        }
-					bootbox.hideAll();
+					//bootbox.hideAll();
 	        bootbox.dialog({
 	          message: $scope.projInfoDialog,
 	          title: "项目详情",
@@ -278,6 +279,7 @@
 
 	  var loadProjConfig = function(name) {
 	    if (name && wcData.projs[name]) {
+				$('.proj-config').slideUp()
 	      $scope.currentProj = wcData.projs[name]
 	      $scope.$apply();
 	      wc.setLocalData('current_proj', name);
@@ -288,6 +290,9 @@
 	      wc.file.readDir(src, showDir)
 	      if (wcData.loadConfig)
 	        wcData.loadConfig(name, src)
+				setTimeout(function() {
+					$('.proj-config').slideDown();
+				},500);
 	    }
 	  };
 
