@@ -33,11 +33,32 @@ var buildJs = function(config,log) {
               txt:config.plugin+' install over'
             }
           )
-          return  loadPlugin(config.plugin).build(config, _log);
+          return  loadPlugin(config.plugin,_log).build(config, _log);
         }
         var installOverCallback=installOver.bind(null,_log)
+        console.log(config.path + config.plugin)
+        console.log(require(config.path + config.plugin))
+        try {
+          //console.log(require(config.path + config.plugin))
+          //test whether the pkg is there.
+          var localPkg=require(config.path + config.plugin);
+          _log('install from local pkg.')
         return plugin.install(config.path + config.plugin,_log)
               .then(installOverCallback)
+        } catch (e) {
+          //install from npm
+          _log('can not install '+config.plugin+' with local pak. wc is trying to install it from npm.')
+          return plugin.install(config.plugin,_log)
+                .then(installOverCallback)
+        }
+        //finally {
+          // var _msg='can not install '+config.plugin+', you can install it manually.'
+          // _log({
+          //   type:'error',
+          //   txt:_msg
+          // })
+          // return Promise.reject(_msg);
+        //}
       } else {
         _log({
           state:'run',

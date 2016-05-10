@@ -1,0 +1,15 @@
+{
+  "name": "wc-temp-merge",
+  "version": "1.0.2",
+  "description": "merge js temp file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "apolluo <apolluo@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "through2": "^2.0.1",
+    "underscore": "^1.8.3"
+  }
+}

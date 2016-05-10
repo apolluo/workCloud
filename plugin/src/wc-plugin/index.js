@@ -1,15 +1,27 @@
 var $ =$|| require('jquery')
 
-var pluginStore = $.extend(pluginStore, {
+var _log;
+var plugin = function(name,log) {
+  _log = $.isFunction(log)?log :log? function msg() {
+   console.log.apply(console,arguments)
+ }:new Function();
+  return new plugin.fn.init(name)
+}
+plugin.fn = plugin.prototype = {
+  name: 'wc-plugin',
+  v: null,
+  pluginStore:{},
+  initPluginStore:function _initPluginStore(pluginRoot) {
+    $.extend(this.pluginStore, {
   all: {
     list: function(isGlobal) {
-      return isGlobal ? 'npm list -g --depth=0' : 'cd plugin && npm list --depth=0'
+          return isGlobal ? 'npm list -g --depth=0' : 'cd '+pluginRoot+' && npm list --depth=0'
     },
     uninstall: function(name, isGlobal) {
-      return 'cd plugin && npm uninstall ' + name + (isGlobal ? ' -g' : ' --save-dev')
+          return 'cd '+pluginRoot+' && npm uninstall ' + name + (isGlobal ? ' -g' : ' --save-dev')
     },
     update: function(name, isGlobal) {
-      return 'cd plugin && npm update ' + name + (isGlobal ? ' -g' : ' --save-dev')
+          return 'cd '+pluginRoot+' && npm update ' + name + (isGlobal ? ' -g' : ' --save-dev')
     }
   },
   npm: {
@@ -28,16 +40,7 @@ var pluginStore = $.extend(pluginStore, {
     check: 'node -v'
   }
 })
-var _log;
-var plugin = function(name,log) {
-  _log = $.isFunction(log)?log :log? function msg() {
-   console.log.apply(console,arguments)
- }:new Function();
-  return new plugin.fn.init(name)
 }
-plugin.fn = plugin.prototype = {
-  name: 'wc-plugin',
-  v: null
 }
 
 /**
@@ -61,11 +64,14 @@ var init = plugin.fn.init = function(name,param) {
   }
   //console.log(this)
   //var _this = this;
-  var pluginAPI = pluginStore[name];
+  this.initPluginStore(this.PLUGIN_ROOT)
+  var pluginAPI = this.pluginStore[name];
   //console.log('pluginStore', pluginStore)
     //not core plugin
   if (!pluginAPI) {
     pluginAPI = {};
+    _log('init plugin: '+name)
+    //console.log('init plugin: '+name)
     // delete require.cache[require.resolve(PLUGIN_PKG)]
     // $.extend(pluginStore, require(PLUGIN_PKG).devDependencies);
     // console.log('pluginStore', pluginStore)
@@ -91,6 +97,7 @@ var init = plugin.fn.init = function(name,param) {
     switch (k) {
       case 'install':
         plugin.fn[k] = function(pkg,log) {
+          //install from local pkg
           if (pkg) {
             return cmd(command + pkg,null,log).then(function() {
               //console.log('install over')
@@ -112,11 +119,11 @@ var init = plugin.fn.init = function(name,param) {
       default:
         plugin.fn[k] = function() {
           if ($.isFunction(command)) {
-            return cmd(command.apply(null, arguments),null,true)
+            return cmd(command.apply(null, arguments),null,_log)
           } else if ($.isPlainObject(command)) {
             return command.ex.apply(null, arguments);
           } else {
-            return cmd(command, null, true);
+            return cmd(command, null, _log);
           }
         }
     }

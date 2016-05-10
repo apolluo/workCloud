@@ -122,8 +122,9 @@ wc.extend({
               break;
           }
           setTimeout(function() {
-          $('#wc_log_txt').append('<li class="text-' + _class + ' ">' + _txt + '</li>')
-        },1000);
+          $('#wc_log_txt').append('<li class="text-' + _class + ' ">' + _txt + '</li>');
+          $('#wc_log_txt').scrollTop($('#wc_log_txt')[0].scrollHeight)
+        },500);
           break;
 
       }

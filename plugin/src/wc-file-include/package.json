@@ -1,0 +1,16 @@
+{
+  "name": "wc-file-include",
+  "version": "1.0.1",
+  "description": "include file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "concat-stream": "^1.4.5",
+    "event-stream": "^3.1.5",
+    "gulp-util": "^2.2.14"
+  },
+  "author": "apolluo <apolluo@hotmail.com>",
+  "license": "MIT"
+}

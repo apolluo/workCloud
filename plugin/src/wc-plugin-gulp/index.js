@@ -1,12 +1,11 @@
 //'use strict';
 var gulp = require("gulp");
-
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var wrapper = require("gulp-wrapper");
-var jshint = require('gulp-jshint')
+//var jshint = require('gulp-jshint')
 var eslint = require('gulp-eslint')
-
+var merge,include,concat
 //must return a promise
 var build = function(configFile, log) {
   var _log = $.isFunction(log) ? log : log ? function msg() {
@@ -60,7 +59,7 @@ var build = function(configFile, log) {
           state: 'loading',
           txt: 'merge file'
         })
-        var merge = require("wc-temp-merge");
+        merge = merge||require("wc-temp-merge");
         stream = stream.pipe(merge());
         break;
       case 'include':
@@ -68,7 +67,7 @@ var build = function(configFile, log) {
           state:'loading',
           txt:'include file'
         })
-        var include = require("gulp-file-include");
+        include = include || require("wc-file-include");
         stream = stream.pipe(include({
           prefix: '@@',
           basepath: config.path + 'core'
@@ -80,17 +79,32 @@ var build = function(configFile, log) {
           state: 'loading',
           txt: 'concat file'
         })
-        var concat = require('gulp-concat');
+         concat =concat|| require('gulp-concat');
         stream = stream.pipe(concat('all.js'));
         break;
 
     }
+    stream.on("error", function(err) {
+      _log({
+        state: 'run',
+        type: 'danger',
+        txt: err
+      })
+    })
 
     //publish debug version
-    stream.pipe(rename(config.debug.name))
+    .pipe(rename(config.debug.name))
       .pipe(gulp.dest(config.debug.path))
       .pipe(eslint())
       .pipe(eslint.format())
+      .pipe(eslint.failOnError())
+      .on("error", function(err) {
+        _log({
+          state: 'run',
+          type: 'danger',
+          txt: err
+        })
+      })
       //compress with uglify
       .pipe(uglify(
         config.uglify_config || {

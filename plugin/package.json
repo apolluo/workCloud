@@ -6,20 +6,10 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "wc-plugin": "^1.0.1"
+  },
   "devDependencies": {
-    "MD5": "~1.2.1",
-    "gulp": "~3.6.2",
-    "gulp-file-include": "~0.3.1",
-    "gulp-footer": "~1.0.4",
-    "gulp-rename": "~1.2.0",
-    "gulp-replace": "0.3.0",
-    "gulp-uglify": "~0.3.0",
-    "gulp-watch": "*",
-    "moment": "~2.6.0",
-    "wc-build": "^1.0.0",
-    "wc-cmd": "^1.0.4",
-    "wc-plugin-grunt": "file:///D:\\doSomething\\workCloud\\projs\\grunt\\wc-plugin-grunt",
     "wc-plugin-gulp": "file:///D:\\doSomething\\workCloud\\projs\\gulp-include\\wc-plugin-gulp"
   }
 }

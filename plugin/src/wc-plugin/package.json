@@ -1,9 +1,12 @@
 {
   "name": "wc-plugin",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "wrokCloud plugin manager",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "wc-cmd": "^1.0.5"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

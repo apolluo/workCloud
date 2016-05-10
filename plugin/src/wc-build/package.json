@@ -1,6 +1,6 @@
 {
   "name": "wc-build",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "build js in node-webkit for windows",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/apolluo/wc-build/issues"
   },
-  "homepage": "https://github.com/apolluo/wc-build#readme"
+  "homepage": "https://github.com/apolluo/wc-build#readme",
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "wc-cmd": "^1.0.5",
+    "wc-plugin": "^1.0.1"
+  }
 }
