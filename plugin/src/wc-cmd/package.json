@@ -1,6 +1,6 @@
 {
   "name": "wc-cmd",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "execute command line on windows",
   "main": "index.js",
   "scripts": {
@@ -21,10 +21,8 @@
     "url": "https://github.com/apolluo/wc-cmd/issues"
   },
   "homepage": "https://github.com/apolluo/wc-cmd#readme",
-  "dependencies":{
-    "jquery":"2.2.3"
+  "dependencies": {
+    "jquery": "2.2.3"
   },
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }

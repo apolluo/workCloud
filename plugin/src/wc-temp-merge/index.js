@@ -4,9 +4,9 @@ var path = require("path");
 var _log;
 function merge(log) {
    _log = $.isFunction(log)?log :log? function msg(msg) {
-    console.log(msg)
+    console.log.apply(console,arguments)
   }:new Function();
-  
+
     var stream = through.obj(function(file, enc, callback) {
         if (file.isNull()) {
             this.push(file);
