@@ -1,20 +1,10 @@
 {
   "name": "wc-plugin",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "wrokCloud plugin manager",
   "main": "index.js",
-  "dependencies": {
-    "wc-build": "^1.0.0",
-    "wc-cmd": "^1.0.4"
-  },
-  "devDependencies": {
-    "gulp": "~3.6.2",
-    "gulp-file-include": "~0.3.1",
-    "gulp-footer": "~1.0.4",
-    "gulp-rename": "~1.2.0",
-    "gulp-replace": "0.3.0",
-    "wc-build": "^1.0.0"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

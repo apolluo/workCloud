@@ -1,11 +1,12 @@
 //'use strict';
 var gulp = require("gulp");
+
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var wrapper = require("gulp-wrapper");
-//var jshint = require('gulp-jshint')
+var jshint = require('gulp-jshint')
 var eslint = require('gulp-eslint')
-var merge,include,concat
+
 //must return a promise
 var build = function(configFile, log) {
   var _log = $.isFunction(log) ? log : log ? function msg() {
@@ -59,7 +60,7 @@ var build = function(configFile, log) {
           state: 'loading',
           txt: 'merge file'
         })
-        merge = merge||require("wc-temp-merge");
+        var merge = require("wc-temp-merge");
         stream = stream.pipe(merge());
         break;
       case 'include':
@@ -67,7 +68,7 @@ var build = function(configFile, log) {
           state:'loading',
           txt:'include file'
         })
-         include =include|| require("gulp-file-include");
+        var include = require("gulp-file-include");
         stream = stream.pipe(include({
           prefix: '@@',
           basepath: config.path + 'core'
@@ -79,7 +80,7 @@ var build = function(configFile, log) {
           state: 'loading',
           txt: 'concat file'
         })
-         concat =concat|| require('gulp-concat');
+        var concat = require('gulp-concat');
         stream = stream.pipe(concat('all.js'));
         break;
 

@@ -1,5 +1,33 @@
 var $ =$|| require('jquery')
 
+var pluginStore = $.extend(pluginStore, {
+  all: {
+    list: function(isGlobal) {
+      return isGlobal ? 'npm list -g --depth=0' : 'cd plugin && npm list --depth=0'
+    },
+    uninstall: function(name, isGlobal) {
+      return 'cd plugin && npm uninstall ' + name + (isGlobal ? ' -g' : ' --save-dev')
+    },
+    update: function(name, isGlobal) {
+      return 'cd plugin && npm update ' + name + (isGlobal ? ' -g' : ' --save-dev')
+    }
+  },
+  npm: {
+    proxy: function(url) {
+      if (url) {
+        return 'npm config set proxy ' + url;
+      } else {
+        return 'npm config get proxy'
+      }
+    }
+  },
+  settings: {
+
+  },
+  node: {
+    check: 'node -v'
+  }
+})
 var _log;
 var plugin = function(name,log) {
   _log = $.isFunction(log)?log :log? function msg() {
@@ -9,38 +37,7 @@ var plugin = function(name,log) {
 }
 plugin.fn = plugin.prototype = {
   name: 'wc-plugin',
-  v: null,
-  pluginStore:{},
-  initPluginStore:function _initPluginStore(pluginRoot) {
-    $.extend(this.pluginStore, {
-      all: {
-        list: function(isGlobal) {
-          return isGlobal ? 'npm list -g --depth=0' : 'cd '+pluginRoot+' && npm list --depth=0'
-        },
-        uninstall: function(name, isGlobal) {
-          return 'cd '+pluginRoot+' && npm uninstall ' + name + (isGlobal ? ' -g' : ' --save-dev')
-        },
-        update: function(name, isGlobal) {
-          return 'cd '+pluginRoot+' && npm update ' + name + (isGlobal ? ' -g' : ' --save-dev')
-        }
-      },
-      npm: {
-        proxy: function(url) {
-          if (url) {
-            return 'npm config set proxy ' + url;
-          } else {
-            return 'npm config get proxy'
-          }
-        }
-      },
-      settings: {
-
-      },
-      node: {
-        check: 'node -v'
-      }
-    })
-  }
+  v: null
 }
 
 /**
@@ -64,8 +61,7 @@ var init = plugin.fn.init = function(name,param) {
   }
   //console.log(this)
   //var _this = this;
-  this.initPluginStore(this.PLUGIN_ROOT)
-  var pluginAPI = this.pluginStore[name];
+  var pluginAPI = pluginStore[name];
   //console.log('pluginStore', pluginStore)
     //not core plugin
   if (!pluginAPI) {
@@ -116,11 +112,11 @@ var init = plugin.fn.init = function(name,param) {
       default:
         plugin.fn[k] = function() {
           if ($.isFunction(command)) {
-            return cmd(command.apply(null, arguments),null,_log)
+            return cmd(command.apply(null, arguments),null,true)
           } else if ($.isPlainObject(command)) {
             return command.ex.apply(null, arguments);
           } else {
-            return cmd(command, null, _log);
+            return cmd(command, null, true);
           }
         }
     }
