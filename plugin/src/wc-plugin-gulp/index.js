@@ -5,7 +5,9 @@ var uglify = require("gulp-uglify");
 var wrapper = require("gulp-wrapper");
 //var jshint = require('gulp-jshint')
 var eslint = require('gulp-eslint')
-var merge,include,concat
+var path = require('path')
+var tap = require('gulp-tap')
+var merge, include, concat, html, minifyHTML, minifyCss
 //must return a promise
 var build = function(configFile, log) {
   var _log = $.isFunction(log) ? log : log ? function msg() {
@@ -41,19 +43,22 @@ var build = function(configFile, log) {
       })
       stream = gulp.src(src)
     }
-
+    stream.pipe(tap(
+        function(file, t) {
+          _log('wc-plugin-gulp is loading file: ' + file.path)
+        }
+      ))
     //console.log("src:", config.src, src)
-    stream.on('data', function(data) {
-        _log('wc-plugin-gulp is loading file: ' + config.path + config.src)
-          //console.log('stream: ------', data)
-      })
-      // if (log) {
-      //   wc.log({
-      //     state: 'loading',
-      //     txt: 'gulp file：' + config.path + config.src
+      // stream.on('data', function(data) {
+      //     _log('wc-plugin-gulp is loading file: ' + config.path + config.src)
+      //       //console.log('stream: ------', data)
       //   })
-      // }
+
     switch (config.type) {
+      case 'html':
+        html = require('gulp-html-replace');
+        stream = stream.pipe(html(config.replace))
+        break;
       case 'temp':
         _log({
           state: 'loading',
@@ -74,13 +79,16 @@ var build = function(configFile, log) {
         }));
         //console.log('include over')
         break;
+      case 'css':
+      case 'concat':
       default:
         _log({
           state: 'loading',
           txt: 'concat file'
         })
          concat =concat|| require('gulp-concat');
-        stream = stream.pipe(concat('all.js'));
+        var name = 'all.' + (config.type == 'css' ? 'css' : 'js')
+        stream = stream.pipe(concat(name));
         break;
 
     }
@@ -92,10 +100,11 @@ var build = function(configFile, log) {
       })
     })
 
-    //publish debug version
-    .pipe(rename(config.debug.name))
+    stream=stream.pipe(rename(config.debug.name))
       .pipe(gulp.dest(config.debug.path))
-      .pipe(eslint())
+    if (config.type != 'html' && config.type != 'css') {
+      //publish debug version
+    stream =  stream.pipe(eslint())
       .pipe(eslint.format())
       .pipe(eslint.failOnError())
       .on("error", function(err) {
@@ -125,7 +134,21 @@ var build = function(configFile, log) {
           }
         }
       ))
-      .on('error', function(err) {
+
+    } else if (config.type == 'css') {
+      minifyCss = require('gulp-minify-css')
+      stream.pipe(minifyCss({
+        keepBreaks: false
+      }))
+    } else if (config.type == 'html') {
+      minifyHTML = require('gulp-minify-html')
+      stream.pipe(minifyHTML({
+        comment: false,
+        spare: false,
+        quotes: false
+      }))
+    }
+    stream.on('error', function(err) {
         //  console.log('err------', err)
         _log({
           state: 'run',
@@ -135,16 +158,19 @@ var build = function(configFile, log) {
 
         // handle the error
       })
+      // add timeline to header
+      if (config.type != 'html' && config.type != 'css') {
+      stream.pipe(wrapper({
+        "header": ";/*" + currentTime() + "*/"
+      }))
+    }
       // .catch(function(error) {
       //   console.log(error)
       //      // you know this only happened for that specific pipe ^
       //   })
-      // add timeline to header
-      .pipe(wrapper({
-        "header": ";/*" + currentTime() + "*/"
-      }))
+
       //publish the release version
-      .pipe(rename(config.release.name))
+    stream.pipe(rename(config.release.name))
       .pipe(gulp.dest(config.release.path));
 
     stream.on('end', function _buildEnd() {

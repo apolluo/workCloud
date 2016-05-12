@@ -1,4 +1,4 @@
-var db = require('./db');
+//var db = require('./db');
 var Sequelize = require('sequelize');
 var sequelize = require('./sequelize')
 var Projs = {};
@@ -84,7 +84,7 @@ Projs.getProj = function(name, callback) {
         }
       }
       ).then(function(projs) {
-        
+
         callback('success', projs);
       })
       .catch(function(error) {

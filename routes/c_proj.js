@@ -121,6 +121,8 @@
 	      $scope.targetProj = wcData.projs[name];
 	      $scope.$apply();
 				wc.modal.hideAll();
+				var isCurrentProj=($scope.currentProj&&$scope.currentProj.name==name)?true:false;
+
 	      setTimeout(function() {
 	        if (!$scope.projInfoDialog) {
 	          $scope.projInfoDialog = document.getElementById('projInfo')
@@ -187,9 +189,9 @@
 	            },
 	            load: {
 	              label: '加载',
-	              className: (name==$scope.currentProj.name)?'btn-info hide':'btn-info',
+	              className: isCurrentProj?'btn-info hide':'btn-info',
 	              callback: function() {
-									if(name==$scope.currentProj.name){
+									if(isCurrentProj){
 										 bootbox.hideAll();
 	                   setTimeout(function() {
 		                    bootbox.success('该项目已经加载！')

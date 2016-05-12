@@ -1,4 +1,4 @@
-$('#button').button();
+//$('#button').button();
 //$("#ngview").niceScroll({cursorcolor:"#00F"});
 wc.extend({
   scroll: function(selector) {
@@ -8,6 +8,9 @@ wc.extend({
       cursorwidth: "10px",
       cursorminheight: 32
     })
+  },
+  loading: function _loading() {
+    bootbox.loading('加载中，请稍候...');
   },
   showDir: function(data, id) {
     console.log("showDir")
@@ -118,13 +121,13 @@ wc.extend({
               _class = 'warning'
               break;
             default:
-              _class = msg.type||"default"
+              _class = msg.type || "default"
               break;
           }
           setTimeout(function() {
-          $('#wc_log_txt').append('<li class="text-' + _class + ' ">' + _txt + '</li>');
-          $('#wc_log_txt').scrollTop($('#wc_log_txt')[0].scrollHeight)
-        },500);
+            $('#wc_log_txt').append('<li class="text-' + _class + ' ">' + _txt + '</li>');
+            $('#wc_log_txt').scrollTop($('#wc_log_txt')[0].scrollHeight)
+          }, 500);
           break;
 
       }

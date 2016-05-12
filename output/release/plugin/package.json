@@ -1,0 +1,21 @@
+{
+  "name": "wc_plugin_manager",
+  "version": "0.1.0",
+  "description": "workCloud plugin manager",
+  "author": "apolluo <apolluo@hotmail.com>",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "dependencies": {
+    "gulp-debug": "^2.1.2",
+    "gulp-foreach": "^0.1.0",
+    "gulp-html-replace": "^1.5.5",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-tap": "^0.1.3",
+    "wc-plugin": "^1.0.1"
+  },
+  "devDependencies": {
+    "wc-plugin-gulp": "file:///D:\\doSomething\\workCloud\\projs\\gulp-include\\wc-plugin-gulp"
+  }
+}

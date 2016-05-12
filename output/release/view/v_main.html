@@ -1,0 +1,68 @@
+<div class="main" ng-controller="c_main">
+  <!-- <div>{{projCtrl.projList}}</div> -->
+  <h3>我的项目</h3>
+
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-primary">
+      <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="headingOne">
+        <h4 class="panel-title">
+          当前项目:{{currentProj.name}}
+      </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div id='projs' class="panel-body">
+
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="headingTwo">
+        <h4 class="panel-title collapsed">
+          所有项目
+      </h4>
+      </div>
+      <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+        <div class="panel-body" id='allProjs'>
+
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="headingThree">
+        <h4 class="panel-title collapsed">
+          新增项目
+      </h4>
+      </div>
+      <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+        <div class="panel-body">
+
+          <p>
+            <button type="button" ng-click="createProj('local')" class="btn btn-default" autocomplete="off">
+              创建本地项目<span class="glyphicon glyphicon-link"></span>
+            </button>
+          </p>
+          <p>
+            <button type="button" disabled='disabled' ng-click="createProj('online')" class="btn btn-default" autocomplete="off">创建线上项目<span class="glyphicon glyphicon-link"></span></button>
+          </p>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapsefour" aria-expanded="false" aria-controls="collapseTwo" id="headingfour">
+        <h4 class="panel-title collapsed">
+          工具
+      </h4>
+      </div>
+      <div id="collapsefour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingfour">
+        <div class="panel-body">
+          <a href="#/plugin">插件管理 <span class="glyphicon glyphicon-cog"></span></a>
+          <br>
+          <a href="#/settings">软件设置 <span class="glyphicon glyphicon-cog"></span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

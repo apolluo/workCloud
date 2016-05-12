@@ -1,4 +1,4 @@
-var db = require('./db');
+//var db = require('./db');
 var Sequelize = require('sequelize');
 //实例
 var sequelize = require('./sequelize')

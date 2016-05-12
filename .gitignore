@@ -51,3 +51,4 @@ node_modules
 angular
 projs
 ui/*
+*.npmignore

@@ -118,4 +118,4 @@ wc.app.controller('c_proj_config', function($scope, wcData) {
     //console.log(configName)
 
   }
-})
+});

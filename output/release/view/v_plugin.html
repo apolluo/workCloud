@@ -1,0 +1,32 @@
+<!-- <div class="proj" ng-controller="load_proj_config_ctrl"> -->
+<!-- 路由里定义，这里设置ng-controller会导致执行2次 -->
+<div class="proj">
+  <h3>本项目已安装的插件</h3>
+  <!-- <p>不能用P去重复，不然input无法绑定数据</p> -->
+<div class="panel-group" id="pluginPanel" role="tablist" aria-multiselectable="true">
+  <div class='config  panel panel-primary' ng-repeat='plugin in plugins'>
+    <div class="panel-heading" id='plugin_{{plugin.name}}_head' role='button' data-toggle="collapse" data-parent="#pluginPanel" aria-expanded="true" aria-controls="plugin_{{plugin.name}}" href="#plugin_{{plugin.name}}">
+      <h4 class="panel-title" >{{plugin.name}} </h5>
+    </div>
+    <div id="plugin_{{plugin.name}}" class="panel-collapse collapse in" role="tabpanel" >
+      <div class="panel-body">
+        版本号：{{plugin.version}}
+
+        <button id="uninstall" ng-click="uninstall(plugin.name)">卸载</button>
+        <button id="updatePluin" ng-click="updata(plugin.name)">更新</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <h4>安装编译工具</h4>
+  <button id='gulp' ng-click='install("gulp")'>安装gulp</button>
+
+  <br>
+  <br>
+
+  <!-- <input type='file' id='projList' name="projList" multiple="multiple" > -->
+</div>
+<script>
+  //$("button").button();
+  //$(".config").accordion();
+</script>

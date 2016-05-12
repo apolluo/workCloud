@@ -94,11 +94,17 @@ var buildJs = function(config,log) {
           return buildJsByConfig(wc_plugin_config[0]);
         }
         //executing command by order
-        wc_plugin_config.reduce(function _buildJsByConfigOrder(prefCommand,currentCommand) {
-          return buildJsByConfig(prefCommand).then(function () {
-            return buildJsByConfig(currentCommand);
+        wc_plugin_config.reduce(function _buildJsByConfigOrder(promise,task) {
+          return promise.then(function functionName() {
+            return buildJsByConfig(task)
           })
-        })
+        },Promise.resolve())
+        // wc_plugin_config.reduce(function _buildJsByConfigOrder(prefCommand,currentCommand) {
+        //   console.log('prefCommand:',prefCommand,'currentCommand:',currentCommand)
+        //   return buildJsByConfig(prefCommand).then(function () {
+        //     return buildJsByConfig(currentCommand);
+        //   })
+        // })
         // $.each(wc_plugin_config, function(i, v) {
         //   buildJsByConfig(v);
         // })

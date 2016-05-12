@@ -1,6 +1,6 @@
 {
   "name": "wc-plugin-gulp",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "workCloud js build tool",
   "main": "index.js",
   "scripts": {

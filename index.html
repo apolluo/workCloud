@@ -9,8 +9,9 @@
   <!-- <link href="ui/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet"> -->
   <!-- Bootstrap -->
   <link href="ui/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!--build:css-bootbox-->
   <link rel="stylesheet" href="ui/bootbox_v2_for4.4.css" />
-
+  <!--endbuild-->
   <style>
     body{
 
@@ -62,24 +63,27 @@
   </style>
 
   <script src="js/jq/jquery-1.11.3.min.js"></script>
-  <script src="js/main.js"></script>
-
   <script src="js/angular/angular.min.js"></script>
   <script src="js/angular/angular-route.min.js"></script>
-
+  <!--build:js-->
+  <script src="js/main.js"></script>
+  <script src="js/ui.js"></script>
+  <!-- <script src="js/exec.js"></script> -->
+  <script src="js/file.js"></script>
+  <!-- <script src="js/plugin.js"></script> -->
+  <!--endbuild-->
+  <!--build:js-routes-->
   <script src="routes/controller.js"></script>
   <script src="routes/c_main.js"></script>
   <script src="routes/c_proj.js"></script>
   <script src="routes/c_proj_config.js"></script>
   <script src="routes/c_plugin.js"></script>
   <script src="routes/c_settings.js"></script>
+  <!--endbuild-->
   <script src="ui/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
   <script src="ui/jstree.min.js"></script>
   <script src="js/jq/jquery.nicescroll/jquery.nicescroll.min.js"></script>
-  <script src="js/ui.js"></script>
-  <!-- <script src="js/exec.js"></script> -->
-  <script src="js/file.js"></script>
-  <!-- <script src="js/plugin.js"></script> -->
+
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -88,7 +92,9 @@
     <![endif]-->
     <script src="ui/bootstrap/js/bootstrap.min.js"></script>
     <!-- <script src="ui/bootbox.min.js"></script> -->
+    <!--build:js-ui-->
     <script src="ui/bootbox_v2_for4.4.js"></script>
+    <!--endbuild-->
   <!-- <script src="plugin/wc_gulpfile.js"></script> -->
 </head>
 

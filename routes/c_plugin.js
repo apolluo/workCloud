@@ -2,7 +2,7 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 	$scope.plugins = []
 		//wc.plugin('all').run('list')
 	var listPlugins = $scope.listPlugins = function() {
-		wc.plugin('all').list()
+		wc.plugin('all',wc.loading).list()
 			.then(function(data) {
 				console.log('--plugins--')
 				console.log(data)
@@ -19,6 +19,7 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 				$scope.$apply();
 			})
 			.then(function scroll() {
+				bootbox.hideAll();
 				wc.scroll('ngview')
 			})
 			.catch(function(data) {
@@ -27,8 +28,9 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 			})
 	}
 	$scope.install = function(name) {
-		wc.plugin(name).install()
+		wc.plugin(name,wc.loading).install()
 			.then(function() {
+				bootbox.hideAll();
 				console.log('安装结束')
 			})
 			.catch(function(err) {
@@ -36,9 +38,10 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 			})
 	}
 	$scope.uninstall = function(name) {
-		wc.plugin('all').uninstall(name)
+		wc.plugin('all',wc.loading).uninstall(name)
 			.then(
 				function() {
+					bootbox.hideAll();
 					//wc.alert('删除插件' + name + '成功')
 					setTimeout(function() {
 						bootbox.success('删除插件' + name + '成功');
@@ -58,4 +61,4 @@ wc.app.controller('c_plugin', function($scope, wcData) {
 
 	listPlugins();
 
-})
+});

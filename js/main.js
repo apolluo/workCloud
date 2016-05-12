@@ -1,10 +1,10 @@
 (function(global, factory) {
     factory(global);
   }(window, function(window, noGlobal) {
-    const ROOT = './'
-    const PLUGIN_ROOT = './plugin/'
-      //const PLUGIN_DIR = ''
-    const PLUGIN_DIR = './plugin/node_modules/';
+     const ROOT = './'
+     const PLUGIN_ROOT = './plugin/'
+    //   //const PLUGIN_DIR = ''
+     const PLUGIN_DIR = './plugin/node_modules/';
     var verson = '0.1.0';
     var wc = function() {
       return new wc.fn.init();
@@ -14,10 +14,10 @@
       constructor: wc
     }
     var init = wc.fn.init = function() {
-      this.ROOT = ROOT;
-      this.PLUGIN_ROOT = PLUGIN_ROOT
-        //const PLUGIN_DIR = ''
-      this.PLUGIN_DIR = PLUGIN_DIR;
+      // this.ROOT = ROOT;
+      // this.PLUGIN_ROOT = PLUGIN_ROOT
+      //   //const PLUGIN_DIR = ''
+      // this.PLUGIN_DIR = PLUGIN_DIR;
 
     }
     init.prototype = wc.fn;
