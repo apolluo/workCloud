@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/apolluo/wc-cmd#readme",
   "dependencies": {
-    "jquery": "2.2.3"
+    "jquery": "^2.2.3"
   },
   "devDependencies": {}
 }

@@ -1,9 +1,11 @@
 var $ = $ || require('jquery');
+console.log($)
 var cmd = function(command, callback, log) {
   var _callback = callback || function() {
     return arguments;
   }
-  var _log = $.isFunction(log) ? log : log ? function msg(msg) {
+  //var _log = $.isFunction(log) ? log : log ? function msg(msg) {
+  var _log = (typeof log=='function') ? log : log ? function msg(msg) {
     console.log.apply(console, arguments)
   } : new Function();
   if (!command) {
@@ -13,7 +15,8 @@ var cmd = function(command, callback, log) {
     })
     return Promise.reject('The command is not found!');
   }
-  if ($.isArray(command)) {
+  //if ($.isArray(command)) {
+  if (Array.isArray(command)) {
     //parse command queue by order
     return command.reduce(
       function(prefCommand, currentCommand) {
@@ -24,12 +27,16 @@ var cmd = function(command, callback, log) {
           //return prefCommand.then(currentCommand)
       });
 
-  } else if ($.isPlainObject(command)) {
-    //parse command queue by random
+  //} else if ($.isPlainObject(command)) {
+  } else if (typeof command=="object") {
+  //parse command queue by random
     var allPromis = []
-    $.each(command, function(k, v) {
-      allPromis.push(cmd(v, null, _log));
-    });
+//  $.each(command, function(k, v) {
+//    allPromis.push(cmd(v, null, _log));
+//  });
+		for(var k in command){
+			allPromis.push(cmd(command[k],null,_log))
+		}
     return Promise.all(allPromis);
   } else {
     //execute command
