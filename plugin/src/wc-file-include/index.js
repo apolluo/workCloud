@@ -23,7 +23,7 @@ module.exports = function(options,log) {
   var includeRegExp = new RegExp(prefix + 'include\\(\\s*["\'](.*?)["\'](,\\s*({[\\s\\S]*?})){0,1}\\s*\\)');
 
   function fileInclude(file) {
-    _log('fileInclude:',file)
+    //_log('fileInclude:',file)
     var self = this;
 
     if (file.isNull()) {
@@ -35,14 +35,14 @@ module.exports = function(options,log) {
         try {
           self.emit('data', include(file, text, includeRegExp, prefix, basepath));
         } catch (e) {
-          self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+          self.emit('error', new gutil.PluginError('wc-file-include', e.message));
         }
       }));
     } else if (file.isBuffer()) {
       try {
         self.emit('data', include(file, String(file.contents), includeRegExp, prefix, basepath));
       } catch (e) {
-        self.emit('error', new gutil.PluginError('gulp-file-include', e.message));
+        self.emit('error', new gutil.PluginError('wc-file-include', e.message));
       }
     }
   }
@@ -69,9 +69,16 @@ function include(file, text, includeRegExp, prefix, basepath) {
     var match = matches[0],
       includePath = matches[1],
       fullIncludePath = path.resolve(basepath, includePath);
-      //_log('fullIncludePath:',fullIncludePath,fs.existsSync( fullIncludePath ))
-
-    var includeContent = fs.existsSync( fullIncludePath ) ? fs.readFileSync( fullIncludePath ) : '';
+      var includeContent='';
+      if(fs.existsSync( fullIncludePath )){
+        includeContent = fs.readFileSync( fullIncludePath );
+        _log('includePath:',fullIncludePath)
+      }else {
+        _log({
+          type:'warning',
+          txt:['includePath:',fullIncludePath,'The file is not found!']
+        })
+      }
     //_log(match,includeContent)
     text = text.replace(match, includeContent);
 

@@ -1,6 +1,6 @@
 {
   "name": "wc-cmd",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "execute command line on windows",
   "main": "index.js",
   "scripts": {

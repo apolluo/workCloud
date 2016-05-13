@@ -1,6 +1,6 @@
 {
   "name": "wc-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "wrokCloud plugin manager",
   "main": "index.js",
   "dependencies": {

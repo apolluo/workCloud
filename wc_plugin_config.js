@@ -53,7 +53,7 @@ var wc_gulp_config = [{
     }, {
       path: path,
       //要编译的文件
-      src: ['routes/controller.js','routes/*.js'],
+      src: ['routes/controller.js', 'routes/*.js'],
       //type:'concat/temp/include',
       type: 'concat',
       plugin: 'wc-plugin-gulp',
@@ -91,12 +91,12 @@ var wc_gulp_config = [{
       //type:'concat/temp/include',
       type: 'html',
       plugin: 'wc-plugin-gulp',
-      replace:{
-        'css-bootbox':'ui/bootbox.min.css',
-        'js':'js/wc-min.js',
-        'js-model':'js/wc-model-min.js',
-        'js-routes':'js/wc-routes-min.js',
-        'js-ui':'ui/wc-ui-min.js'
+      replace: {
+        'css-bootbox': 'ui/bootbox.min.css',
+        'js': 'js/wc-min.js',
+        'js-model': 'js/wc-model-min.js',
+        'js-routes': 'js/wc-routes-min.js',
+        'js-ui': 'ui/wc-ui-min.js'
       },
       debug: {
         path: path + 'output/debug/',
@@ -108,7 +108,7 @@ var wc_gulp_config = [{
       }
     }
     //css
-    ,{
+    , {
       path: path,
       //要编译的文件
       src: 'ui/bootbox_v2_for4.4.css',

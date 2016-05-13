@@ -112,9 +112,12 @@ function parseRequire(comment_header) {
 function generate(file, root, platform, params) {
   // _log("generate:", arguments);
   var template_file = file;
-  //_log(__filename,template_file);
+  _log('merge file:',template_file);
   if (!fs.existsSync(template_file)) {
-    _log(template_file, ",File Not Exists");
+    _log({
+      type:'warning',
+      txt:[template_file, ",File Not Exists"]
+    });
     return false;
   }
   //压缩模版文件所在目录
