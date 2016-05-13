@@ -1,178 +1,55 @@
-# colors.js [![Build Status](https://travis-ci.org/Marak/colors.js.svg?branch=master)](https://travis-ci.org/Marak/colors.js)
-
+# wc-cmd.js
 ## execute cmd for windows on nodejs
 
-![Demo](https://raw.githubusercontent.com/Marak/colors.js/master/screenshots/colors.png)
+![Demo](https://raw.githubusercontent.com/apolluo/workCloud/v0.1.1/plugin/src/wc-cmd/test/cmdTest.png)
 
 ## Installation
 
-    npm install colors
-
-## colors and styles!
-
-### text colors
-
-  - black
-  - red
-  - green
-  - yellow
-  - blue
-  - magenta
-  - cyan
-  - white
-  - gray
-  - grey
-
-### background colors
-
-  - bgBlack
-  - bgRed
-  - bgGreen
-  - bgYellow
-  - bgBlue
-  - bgMagenta
-  - bgCyan
-  - bgWhite
-
-### styles
-
-  - reset
-  - bold
-  - dim
-  - italic
-  - underline
-  - inverse
-  - hidden
-  - strikethrough
-
-### extras
-
-  - rainbow
-  - zebra
-  - america
-  - trap
-  - random
-
+    npm install wc-cmd
 
 ## Usage
 
-By popular demand, `colors` now ships with two types of usages!
-
-The super nifty way
+It returns a promise, so you can use it like this to execute a cmd.
 
 ```js
-var colors = require('colors');
-
-console.log('hello'.green); // outputs green text
-console.log('i like cake and pies'.underline.red) // outputs red underlined text
-console.log('inverse the color'.inverse); // inverses the color
-console.log('OMG Rainbows!'.rainbow); // rainbow
-console.log('Run the trap'.trap); // Drops the bass
-
+var cmd = require('wc-cmd')
+cmd('mkdir hh').then(
+		function(data) {
+			console.log(process.cwd());
+		}
+	)
+	.then(
+		function() {
+			return cmd('dir')
+		}
+	)
+	.then(function(data) {
+		console.log(data.join(''))
+		console.log('all cmd over!')
+	})
 ```
 
-or a slightly less nifty way which doesn't extend `String.prototype`
+And you can execute cmd queue in a array.
 
 ```js
-var colors = require('colors/safe');
-
-console.log(colors.green('hello')); // outputs green text
-console.log(colors.red.underline('i like cake and pies')) // outputs red underlined text
-console.log(colors.inverse('inverse the color')); // inverses the color
-console.log(colors.rainbow('OMG Rainbows!')); // rainbow
-console.log(colors.trap('Run the trap')); // Drops the bass
-
+cmd(['rd hh', 'dir'])
+	.then(
+		function(data) {
+			console.log(data.join(''))
+		}
+	);
+	
 ```
-
-I prefer the first way. Some people seem to be afraid of extending `String.prototype` and prefer the second way. 
-
-If you are writing good code you will never have an issue with the first approach. If you really don't want to touch `String.prototype`, the second usage will not touch `String` native object.
-
-## Disabling Colors
-
-To disable colors you can pass the following arguments in the command line to your application:
-
-```bash
-node myapp.js --no-color
-```
-
-## Console.log [string substitution](http://nodejs.org/docs/latest/api/console.html#console_console_log_data)
-
-```js
-var name = 'Marak';
-console.log(colors.green('Hello %s'), name);
-// outputs -> 'Hello Marak'
-```
-
-## Custom themes
 
 ### Using standard API
-
 ```js
-
-var colors = require('colors');
-
-colors.setTheme({
-  silly: 'rainbow',
-  input: 'grey',
-  verbose: 'cyan',
-  prompt: 'grey',
-  info: 'green',
-  data: 'grey',
-  help: 'cyan',
-  warn: 'yellow',
-  debug: 'blue',
-  error: 'red'
-});
-
-// outputs red text
-console.log("this is an error".error);
-
-// outputs yellow text
-console.log("this is a warning".warn);
+/**
+ * @param {string,array,object} command is a cmd command on windows.
+ * @param {function} callback  The function will be called when command is over.
+ * @param {function,boolean} log=[function|true|false] 
+ * @return {Promise}
+ * @example
+ * cmd('cd ../',null,console.log)
+ */ 
+cmd(command,callback,log)	
 ```
-
-### Using string safe API
-
-```js
-var colors = require('colors/safe');
-
-// set single property
-var error = colors.red;
-error('this is red');
-
-// set theme
-colors.setTheme({
-  silly: 'rainbow',
-  input: 'grey',
-  verbose: 'cyan',
-  prompt: 'grey',
-  info: 'green',
-  data: 'grey',
-  help: 'cyan',
-  warn: 'yellow',
-  debug: 'blue',
-  error: 'red'
-});
-
-// outputs red text
-console.log(colors.error("this is an error"));
-
-// outputs yellow text
-console.log(colors.warn("this is a warning"));
-
-```
-
-You can also combine them:
-
-```javascript
-var colors = require('colors');
-
-colors.setTheme({
-  custom: ['red', 'underline']
-});
-
-console.log('test'.custom);
-```
-
-*Protip: There is a secret undocumented style in `colors`. If you find the style you can summon him.*
