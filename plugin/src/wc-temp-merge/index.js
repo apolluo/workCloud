@@ -140,10 +140,9 @@ function generate(file, root, platform, params) {
       var replace_str = params["param" + t[1]].substr(1, params["param" + t[1]].length - 2);
       row = row.replace(/\{PARAM\d\}/g, replace_str);
       //_log(row);
-    } else if (row.indexOf("//{cry_") > -1) {
-      //_log("Find module");
+    } else if (row.indexOf("//{wc:") > -1) {
       var matches = row.match(/\/\/\{([^\(]*)?(\(.*\))?\}/);
-      // _log(matches[1]);
+       _log("Find module",matches[1]);
       var targetModule = matches[1].substr(4);
       if (typeof matches[2] !== 'undefined') {
         var p = matches[2].substr(1, matches[2].length - 2).split(",");
@@ -174,10 +173,10 @@ function generate(file, root, platform, params) {
           file = code_root + path.sep + targetModule.replace(".", path.sep) + ".js";
         }
         //如果对应平台目录下没有该模块文件，则加载core目录下对应模块文件
-        if (!fs.existsSync(file)) {
-          newtargetModule = targetModule.replace(namespace, "core");
-          file = code_root + path.sep + newtargetModule.replace(".", path.sep) + ".js";
-        }
+        // if (!fs.existsSync(file)) {
+        //   newtargetModule = targetModule.replace(namespace, "core");
+        //   file = code_root + path.sep + newtargetModule.replace(".", path.sep) + ".js";
+        // }
         //_log(path.dirname(file));
         // _log("File2:", file);
         var content = generate(file, root, platform); //此处实现了递归

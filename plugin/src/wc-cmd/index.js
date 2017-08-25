@@ -1,5 +1,5 @@
-var $ = $ || require('jquery');
-console.log($)
+//var $ = $ || require('jquery');
+//console.log($)
 var cmd = function(command, callback, log) {
   var _callback = callback || function() {
     return arguments;

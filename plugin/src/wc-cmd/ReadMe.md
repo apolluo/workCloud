@@ -1,4 +1,4 @@
-# wc-cmd.js
+# wc-cmd
 ## execute cmd for windows on nodejs
 
 ![Demo](https://raw.githubusercontent.com/apolluo/workCloud/v0.1.1/plugin/src/wc-cmd/test/cmdTest.png)

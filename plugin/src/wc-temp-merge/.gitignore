@@ -45,11 +45,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-*.yml
-node_modules/jshint/node_modules/htmlparser2/node_modules/domutils/node_modules/dom-serializer/node_modules/entities/lib/decode_codepoint.js
 node_modules
-angular
-projs
-ui/*
-*.npmignore
-.idea/*

@@ -1,0 +1,57 @@
+npm install socket.io 提示缺少"VCBuild.exe"
+如下提示：
+
+d:\Dev\node.js\test\hello\node_modules\socket.io\node_modules\socket.io-client
+ode_modules\ws>node “c:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin
+…\node_modules\node-gyp\bin\node-gyp.js” rebuild 在此解决方案中一次生成一个项目。若要启用并行生成，请添加“/m”开关。 MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。要解决此问题，
+
+安装 .NET Fram ework 2.0 SDK；2) 安装 Microsoft Visual Studio 2005；或 3) 如果将该组件安装到了 其他位置，请将其位置添加到系统 路径中。 [d:\Dev\node.js\test\hello\node_modules\socket.io\node_modules\socket. o-c lient\node_modules\ws\build\binding.sln] MSBUILD : error MSB3428: 未能加载 Visual C++ 组件“VCBuild.exe”。要解决此问题，
+安装 .NET Fram ework 2.0 SDK；2) 安装 Microsoft Visual Studio 2005；或 3) 如果将该组件安装到了 其他位置，请将其位置添加到系统 路径中。 [d:\Dev\node.js\test\hello\node_modules\socket.io\node_modules\socket. o-c lient\node_modules\ws\build\binding.sln] socket.io@0.9.13 node_modules\socket.io
+之前提示python不存在，装了ActivePython2.7.2，然后提示没有VCBuild.exe. 又装的windows SDK 7 等
+
+ 
+
+其实我的电脑上已经装了vs2008 和 vs2012了，但是还是报错：
+
+在此解决方案中一次生成一个项目。若要启用并行生成，请添加“/m”开关。
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(297,5): warning MSB8003: Could not find WindowsSDKDir variable from the registry.
+TargetFrameworkVersion or PlatformToolset may be set to an invalid version number. [C:\Users\Jason.yang\AppData\Roaming\npm\node_modules\ws\node_modules\bufferutil\build\bufferutil.vcxproj]
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Platforms\x64\Microsoft.Cpp.x64.targets(152,5): error MSB6006: “CL.exe”已退出，代码为 -1073741515。 [C:\Users\Jason.yang\AppData\Roaming\npm\node_modules\ws\node_modules\bufferutil\build\bufferutil.vcxproj]
+gyp ERR! build error
+gyp ERR! stack Error: `C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe` failed with exit code: 1
+gyp ERR! stack at ChildProcess.onExit (C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\build.js:269:23)
+gyp ERR! stack at ChildProcess.emit (events.js:110:17)
+gyp ERR! stack at Process.ChildProcess._handle.onexit (child_process.js:1074
+:12)
+
+ 
+
+经搜索网友评论，发现需要更新的强制指定，比如用vs2012，我的是2010
+
+npm config set msvs_version 2012 --global
+
+在 node-webkit 使用node-sqlite3 模組
+2014/11/12 updated:
+
+現在只要先checkout最新的sqlite3
+
+npm install sqlite3
+
+再輸入以下指令即可(假設node-webkit版本是v0.10.4)
+
+npm install --build-from-source --runtime=node-webkit --target_arch=ia32 --target=0.10.4
+
+(注意sqlite3有用到node-pre，因此sqlite3 module資料夾下的 node_modules/node-pre-gyp 資料夾要保留)
+
+http://hsu0402.blogspot.com/2013/07/node-webkit-node-sqlite3.html
+
+
+
+Goto Control Panel -> Programs and Features and uninstall “Microsoft Visual C++2010 x64 Redistributable” and “Microsoft Visual C++ 2010 x86 Redistributable” (if present)cpluplus_redist
+Download and install Python 2.7.3 (if you have Python 3.x already installed, just leave it, both can coexist)
+Visual C++ 2010 Express or Visual Studio 2010
+Windows SDK 7.1
+Visual Studio 2010 SP1
+Visual C++ 2010 SP1 Compiler Update for the Windows SDK 7.1
+
+https://www.robertkehoe.com/2015/03/fix-node-gyp-rebuild-error-on-windows/
